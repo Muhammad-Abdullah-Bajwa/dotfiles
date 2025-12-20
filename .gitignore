@@ -1,0 +1,19 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Compiled files
+*.zwc
+
+# Sensitive data
+.config/gh/hosts.yml
+
+# Local machine-specific configs
+*.local

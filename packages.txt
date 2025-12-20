@@ -1,0 +1,35 @@
+# Nix packages to install
+# One package per line, use package names from nixpkgs
+# Install with: nix profile install nixpkgs#<package>
+
+atuin
+bash-completion
+bat
+bc
+carapace
+claude-code
+curl
+delta
+eza
+fd
+fish
+fzf
+gh
+helix
+jq
+neovim
+nodejs
+nushell
+opencode
+procs
+ripgrep
+starship
+tree-sitter
+wrk
+zellij
+zig
+zoxide
+zsh
+zsh-autosuggestions
+zsh-completions
+zsh-syntax-highlighting

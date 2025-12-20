@@ -1,0 +1,46 @@
+ls
+zsh
+exit
+clear
+exit
+ls
+cd repos/
+ls
+cd ..
+ls
+cd .config/
+ls
+cd nushell/
+ls
+cd ..
+zoxide init nushell | save -f ~/.config/nushell/zoxide.nu
+fzf
+exit
+atuin init nu | save -f ~/.config/nushell/atuin.nu
+exit
+carapace _carapace nushell | save -f ~/.cache/carapace/init.nu
+fzf
+z
+exit
+ls
+z repos
+zi
+exit
+ls
+zoxide 
+zoxide init
+zoxide init nushell
+z
+source ~/.config/nushell/zoxide.nu
+z
+source ~/.zoxide.nu
+ls
+exit
+ls
+cd ..
+cd roxy
+ls
+cd repos/roxy/
+cd ..
+cd roxy
+exit

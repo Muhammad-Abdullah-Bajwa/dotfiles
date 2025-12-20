@@ -1,0 +1,62 @@
+// ~/.config/zellij/config.kdl
+
+// Basic settings
+default_shell "fish"
+pane_frames false
+theme "gruvbox-dark"
+simplified_ui true
+default_layout "compact"
+
+// Keybindings
+keybinds {
+    normal clear-defaults=true {
+        // Leader key: Ctrl+Space (like your Neovim)
+        bind "Ctrl Space" { SwitchToMode "tmux"; }
+    }
+
+    tmux clear-defaults=true {
+        // Exit tmux mode
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "Ctrl Space" { SwitchToMode "normal"; }
+
+        // Tab management (like harpoon)
+        bind "c" { NewTab; SwitchToMode "normal"; }
+        bind "x" { CloseTab; SwitchToMode "normal"; }
+        bind "r" { SwitchToMode "RenameTab"; }
+
+        // Quick tab switching (harpoon-style)
+        bind "1" { GoToTab 1; SwitchToMode "normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "normal"; }
+        bind "4" { GoToTab 4; SwitchToMode "normal"; }
+        bind "5" { GoToTab 5; SwitchToMode "normal"; }
+        bind "6" { GoToTab 6; SwitchToMode "normal"; }
+        bind "7" { GoToTab 7; SwitchToMode "normal"; }
+        bind "8" { GoToTab 8; SwitchToMode "normal"; }
+        bind "9" { GoToTab 9; SwitchToMode "normal"; }
+
+        // Tab navigation
+        bind "n" { GoToNextTab; SwitchToMode "normal"; }
+        bind "p" { GoToPreviousTab; SwitchToMode "normal"; }
+        bind "Tab" { GoToNextTab; SwitchToMode "normal"; }
+        bind "h" { GoToPreviousTab; SwitchToMode "normal"; }
+        bind "l" { GoToNextTab; SwitchToMode "normal"; }
+
+        // Panes (for when you need them)
+        bind "v" { NewPane "Right"; SwitchToMode "normal"; }
+        bind "s" { NewPane "Down"; SwitchToMode "normal"; }
+        bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+
+        // Session management
+        bind "d" { Detach; }
+        bind "q" { Quit; }
+    }
+
+    renametab {
+        bind "Esc" { UndoRenameTab; SwitchToMode "normal"; }
+        bind "Enter" { SwitchToMode "normal"; }
+    }
+}
+
+// Clean startup - no default panes
+// Remove or comment out if you want the default layout
