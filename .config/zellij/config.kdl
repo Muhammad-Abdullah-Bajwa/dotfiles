@@ -7,7 +7,7 @@ theme "gruvbox-dark"
 simplified_ui true
 default_layout "compact"
 on_force_close "quit"
-copy_on_select false
+copy_on_select true
 session_serialization false
 disable_session_metadata true
 

@@ -1,35 +1,60 @@
 # Nix packages to install
 # One package per line, use package names from nixpkgs
+#
 # Install with: nix profile install nixpkgs#<package>
+# Or use flakes: nix profile install .# (installs all at once)
+#
+# Check package versions: nix eval --raw nixpkgs#<package>.version
+# Search packages: nix search nixpkgs <name>
+#
+# PACKAGES NOT IN NIXPKGS (install separately):
+#   claude-code: npm install -g @anthropic-ai/claude-code
+#   opencode: See https://github.com/opencode-ai/opencode
+#
 
-atuin
-bash-completion
-bat
-bc
-carapace
-claude-code
-curl
-delta
-eza
-fd
-fish
-fzf
-gh
-helix
-jq
-neovim
-nodejs
-nushell
-opencode
-procs
-ripgrep
-starship
-tree-sitter
-wrk
-zellij
-zig
-zoxide
+# ---------- Shell & Terminal ----------
 zsh
 zsh-autosuggestions
 zsh-completions
 zsh-syntax-highlighting
+fish
+nushell
+bash-completion
+
+# ---------- Editors ----------
+neovim
+helix
+
+# ---------- Modern CLI Replacements ----------
+eza
+bat
+fd
+ripgrep
+procs
+delta
+zoxide
+
+# ---------- Fuzzy Finding & Navigation ----------
+fzf
+carapace
+
+# ---------- Shell Enhancements ----------
+atuin
+starship
+
+# ---------- Terminal Multiplexer ----------
+zellij
+
+# ---------- Git & GitHub ----------
+gh
+
+# ---------- Development Tools ----------
+jq
+tree-sitter
+zig
+nodejs
+
+# ---------- Utilities ----------
+curl
+bc
+wrk

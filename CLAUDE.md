@@ -4,22 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a **dotfiles repository** managed with Nix package management and symlinks. It contains shell configurations (zsh, fish), editor configs (Neovim, Helix), and various CLI tool configurations. The repository is designed for easy deployment on new machines and maintaining consistency across development environments.
+This is a **dotfiles repository** managed with Nix flakes and symlinks. It contains shell configurations (zsh, fish, nushell), editor configs (Neovim, Helix), and various CLI tool configurations. The repository is designed for easy deployment on new machines and maintaining consistency across development environments.
 
 ## Repository Structure
 
 ```
 ~/dotfiles/
-├── install.sh          # Bootstrap: installs Nix, packages, and symlinks dotfiles
-├── sync.sh             # Syncs manually-installed Nix packages back to packages.txt
+├── install.sh          # Bootstrap: installs Nix, configures caches, installs packages
+├── sync.sh             # Syncs installed packages and updates flake.lock
 ├── verify-links.sh     # Verifies all symlinks are correct
-├── packages.txt        # List of Nix packages to install
-├── .bashrc, .zshrc     # Shell configurations (symlinked to ~/)
+├── flake.nix           # Nix flake definition (reproducible packages)
+├── flake.lock          # Locked package versions (auto-generated)
+├── packages.txt        # Human-readable package list (reference)
+├── .zshrc              # Zsh configuration (optimized <200ms startup)
 ├── .gitconfig          # Git configuration
-└── .config/            # App configs (each subdir symlinked to ~/.config/)
-    ├── nvim/           # Neovim config (heavily modular, lazy.nvim-based)
+└── .config/
+    ├── nix/            # Nix settings (binary caches, flakes)
+    ├── nvim/           # Neovim config (modular lazy.nvim-based)
     ├── helix/          # Helix editor config
     ├── fish/           # Fish shell config
+    ├── nushell/        # Nushell config
     ├── zellij/         # Terminal multiplexer config
     ├── atuin/          # Shell history manager
     └── ...
@@ -30,38 +34,67 @@ This is a **dotfiles repository** managed with Nix package management and symlin
 ### Initial Setup
 ```bash
 # On a fresh machine
-git clone <repo-url> ~/dotfiles
+git clone https://github.com/Muhammad-Abdullah-Bajwa/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./install.sh
 ```
 
-### Package Management
+### Package Management (Flake-Based - Recommended)
 ```bash
-# Sync installed packages to packages.txt (after manual nix profile install)
+# Install all packages from flake
+nix profile install .#
+
+# Update nixpkgs to latest
+nix flake update
+
+# Apply updates to installed packages
+nix profile upgrade --all
+
+# Check flake validity
+nix flake check
+
+# Enter dev shell with all packages
+nix develop
+```
+
+### Package Management (Legacy)
+```bash
+# Force legacy installation method
+./install.sh --legacy
+
+# Install single package manually
+nix profile install nixpkgs#<package>
+
+# Sync installed packages to packages.txt
 ./sync.sh
 
-# Install packages from packages.txt
-while read -r pkg; do
-  [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-  nix profile install "nixpkgs#$(echo $pkg | xargs)"
-done < packages.txt
+# Update flake.lock to latest nixpkgs
+./sync.sh --update
+```
 
-# List installed Nix packages
+### Common Nix Commands
+```bash
+# List installed packages
 nix profile list
 
 # Remove a package
-nix profile remove <name or index>
+nix profile remove <name>
 
-# Upgrade all packages
-nix profile upgrade '.*'
+# Search for packages
+nix search nixpkgs <name>
 
-# Garbage collect
+# Check package version
+nix eval --raw nixpkgs#<package>.version
+
+# Garbage collect old generations
 nix-collect-garbage -d
+
+# Check binary cache configuration
+nix show-config | grep substituters
 ```
 
 ### Symlink Verification
 ```bash
-# Verify all symlinks point to correct locations
 ./verify-links.sh
 ```
 
@@ -69,7 +102,7 @@ nix-collect-garbage -d
 Since dotfiles are symlinked, edits in `~/` or `~/.config/` are immediately reflected in the repo:
 ```bash
 # Edit a config
-vim ~/.zshrc  # or hx ~/.zshrc
+nvim ~/.zshrc  # or hx ~/.zshrc
 
 # Commit changes
 cd ~/dotfiles
@@ -80,15 +113,29 @@ git push
 
 ## Key Architectural Details
 
+### Nix Flakes
+The repository uses Nix flakes for reproducible package management:
+- **flake.nix** - Defines all packages to install
+- **flake.lock** - Locks exact versions for reproducibility
+- **packages.txt** - Human-readable reference (synced with flake.nix)
+
+Benefits:
+- Reproducible builds across machines
+- Fast updates with `nix flake update`
+- Better dependency resolution
+- Standard in modern Nix ecosystem
+
+### Binary Caches
+Configured in `.config/nix/nix.conf` for fast package downloads:
+- **cache.nixos.org** - Official Nixpkgs cache
+- **nix-community.cachix.org** - Community packages (neovim, rust-analyzer, etc.)
+
+Most packages download in seconds instead of building from source.
+
 ### Symlinking Strategy
 - **Top-level dotfiles** (`.bashrc`, `.zshrc`, `.gitconfig`) are symlinked directly to `~/`
 - **Config directories** (`.config/nvim`, `.config/fish`, etc.) are symlinked as entire directories to `~/.config/`
 - The `install.sh` script backs up existing files/dirs before creating symlinks
-
-### Nix Package Management
-- Packages are managed via **single-user Nix** (not NixOS, not home-manager)
-- `packages.txt` is the source of truth for declarative package installation
-- `sync.sh` detects manually-installed packages and adds them to `packages.txt`
 
 ### Shell Configuration Philosophy (.zshrc)
 The `.zshrc` is heavily optimized for startup speed (target: <200ms):
@@ -120,6 +167,7 @@ Located in `.config/nvim/`, this is a **modular, lazy.nvim-based** config:
 - Configured for C++, Rust, and C# development
 - LSP servers auto-installed via Mason
 - Add new servers by editing `servers` table in `lua/plugins/lsp.lua`
+- Uses nvim-treesitter 1.0+ API (modern, simplified)
 
 **Key Conventions:**
 - Leader key: `<Space>`
@@ -155,10 +203,11 @@ Located in `.config/nvim/`, this is a **modular, lazy.nvim-based** config:
 - **Neovim** - Primary editor (modular Lua config)
 - **Helix** - Secondary editor (configured as git core.editor)
 
-### CLI Tools (from packages.txt)
+### CLI Tools (from flake.nix/packages.txt)
 - **eza** - Modern `ls` replacement
 - **bat** - Modern `cat` with syntax highlighting
-- **ripgrep** (`rg`) - Fast search
+- **fd** - Modern `find` replacement
+- **ripgrep** (`rg`) - Fast grep
 - **delta** - Git diff pager
 - **fzf** - Fuzzy finder
 - **zoxide** - Smart `cd` replacement
@@ -166,12 +215,14 @@ Located in `.config/nvim/`, this is a **modular, lazy.nvim-based** config:
 - **starship** - Cross-shell prompt
 - **carapace** - Multi-shell completion bridge
 - **zellij** - Terminal multiplexer
+- **procs** - Modern `ps` replacement
 
 ### Development Tools
 - **Git** with `gh` CLI for GitHub
 - **Rust toolchain** (rustup)
-- **Node.js** (for Copilot)
-- **Nix** package manager
+- **Node.js** (for Copilot, some LSPs)
+- **Zig** - Programming language
+- **Nix** package manager with flakes
 
 ## Important Notes
 
@@ -183,24 +234,34 @@ Located in `.config/nvim/`, this is a **modular, lazy.nvim-based** config:
 - Read `AGENTS.md` in `.config/nvim/` for detailed guidance
 
 ### When Adding New Packages
-Two workflows:
-1. **Declarative**: Add to `packages.txt`, then install via loop
-2. **Imperative**: `nix profile install nixpkgs#<package>`, then run `./sync.sh` to update `packages.txt`
+Three workflows:
+1. **Flake (recommended)**: Add to `flake.nix` packageList, then `nix profile install .#`
+2. **Declarative**: Add to `packages.txt`, then `./install.sh --legacy`
+3. **Imperative**: `nix profile install nixpkgs#<package>`, then run `./sync.sh`
 
 ### When Adding New Dotfiles
 ```bash
 # Move to repo
 mv ~/.vimrc ~/dotfiles/
 
-# Create symlink
-ln -s ~/dotfiles/.vimrc ~/.vimrc
+# Re-run install to create symlink
+./install.sh
 
-# For .config items
-mv ~/.config/nvim ~/dotfiles/.config/
-ln -s ~/dotfiles/.config/nvim ~/.config/nvim
+# Or manually symlink
+ln -s ~/dotfiles/.vimrc ~/.vimrc
 ```
 
 ### Performance Considerations
 - Zsh config caches init scripts - delete `~/.cache/zsh/` to regenerate
 - Neovim uses lazy-loading - check `:Lazy profile` for startup time
 - Compinit dump regenerates every 24 hours automatically
+- Binary caches avoid slow local builds
+
+### Packages Not in Nixpkgs
+Some packages must be installed separately:
+```bash
+# Claude Code (via npm)
+npm install -g @anthropic-ai/claude-code
+
+# opencode - check project repository for installation
+```

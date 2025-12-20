@@ -1,86 +1,130 @@
 # Dotfiles
 
-Simple dotfiles management with Nix package management.
+Personal dotfiles with Nix package management and flake-based reproducibility.
 
-## Structure
-
-```
-~/dotfiles/
-├── install.sh          # Bootstrap script
-├── packages.txt        # List of Nix packages to install
-├── .bashrc            # Bash configuration
-├── .zshrc             # Zsh configuration
-├── .gitconfig         # Git configuration
-└── .config/           # Application configs
-    ├── helix/
-    ├── fish/
-    └── ...
-```
-
-## Installation
-
-On a new machine:
+## Quick Start
 
 ```bash
-git clone <your-repo-url> ~/dotfiles
+git clone https://github.com/Muhammad-Abdullah-Bajwa/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./install.sh
 ```
 
 The script will:
-1. Install Nix (single-user) if not present
-2. Install all packages from `packages.txt`
-3. Symlink dotfiles to your home directory
-4. Backup any existing files
+1. Install Nix (via Determinate Systems installer) if not present
+2. Configure binary caches for fast downloads
+3. Install all packages via Nix flakes
+4. Symlink dotfiles to your home directory
 
-## Managing Packages
+## Structure
 
-### Syncing Installed Packages
-
-If you install packages manually with `nix profile install`, sync them to `packages.txt`:
-
-```bash
-cd ~/dotfiles
-./sync.sh
-git add packages.txt
-git commit -m "Update packages"
+```
+~/dotfiles/
+├── install.sh              # Bootstrap script
+├── sync.sh                 # Sync installed packages
+├── verify-links.sh         # Verify symlinks
+├── flake.nix               # Nix flake (reproducible packages)
+├── flake.lock              # Locked package versions
+├── packages.txt            # Package list (readable reference)
+├── CLAUDE.md               # AI assistant guidance
+├── .zshrc                  # Zsh configuration (optimized <200ms)
+├── .gitconfig              # Git configuration
+└── .config/
+    ├── nix/                # Nix settings (binary caches)
+    ├── nvim/               # Neovim (modular lazy.nvim config)
+    ├── helix/              # Helix editor
+    ├── fish/               # Fish shell
+    ├── nushell/            # Nushell
+    ├── zellij/             # Terminal multiplexer
+    ├── atuin/              # Shell history
+    └── ...
 ```
 
-The sync script will:
-- Find all packages installed via Nix
-- Add any missing packages to `packages.txt`
-- Sort and deduplicate the list
+## Package Management
 
-### Installing Packages
-
-Edit `packages.txt` to add/remove packages, then run:
+### Flake-Based (Recommended)
 
 ```bash
-# Install new packages
-while read -r pkg; do
-  [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-  nix profile install "nixpkgs#$(echo $pkg | xargs)"
-done < packages.txt
+# Install all packages
+nix profile install .#
 
+# Update nixpkgs to latest
+nix flake update
+
+# Apply updates
+nix profile upgrade --all
+
+# Check what will change
+nix flake check
+```
+
+### Legacy (packages.txt)
+
+```bash
+# Force legacy installation
+./install.sh --legacy
+
+# Install single package
+nix profile install nixpkgs#<package>
+
+# Sync installed packages to packages.txt
+./sync.sh
+```
+
+### Common Commands
+
+```bash
 # List installed packages
 nix profile list
 
 # Remove a package
-nix profile remove <name or index>
+nix profile remove <name>
 
-# Upgrade all packages
-nix profile upgrade '.*'
+# Search for packages
+nix search nixpkgs <name>
+
+# Check package version
+nix eval --raw nixpkgs#<package>.version
+
+# Garbage collect old generations
+nix-collect-garbage -d
 ```
 
-## Managing Dotfiles
+## Binary Caches
 
-Since dotfiles are symlinked, just edit them in place:
+Binary caches are configured in `.config/nix/nix.conf`:
+
+- **cache.nixos.org** - Official Nixpkgs cache
+- **nix-community.cachix.org** - Community packages (neovim, rust-analyzer, etc.)
+
+This means most packages download in seconds instead of building from source.
+
+## Package Versions
+
+Current versions in nixpkgs-unstable:
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| neovim | 0.11.5 | Primary editor |
+| helix | 25.07.1 | Secondary editor |
+| atuin | 18.10.0 | Shell history manager |
+| starship | 1.24.1 | Cross-shell prompt |
+| fzf | 0.67.0 | Fuzzy finder |
+| zoxide | 0.9.8 | Smart cd |
+| bat | 0.26.1 | cat with syntax highlighting |
+| eza | 0.23.4 | Modern ls |
+| ripgrep | 15.1.0 | Fast grep |
+| zellij | 0.43.1 | Terminal multiplexer |
+
+## Dotfile Management
+
+Dotfiles are symlinked, so changes are immediately reflected:
 
 ```bash
 # Edit a dotfile
-vim ~/.zshrc
+nvim ~/.zshrc
 
-# Changes are immediately reflected in the repo
+# Changes are in the repo
 cd ~/dotfiles
 git diff
 git add .
@@ -88,31 +132,113 @@ git commit -m "Update zshrc"
 git push
 ```
 
-## Adding New Dotfiles
+### Adding New Dotfiles
 
 ```bash
-# Move existing dotfile to repo
+# Move to repo
 mv ~/.vimrc ~/dotfiles/
-cd ~/dotfiles
-ln -s ~/dotfiles/.vimrc ~/.vimrc
 
-# Or for .config items
-mv ~/.config/nvim ~/dotfiles/.config/
-ln -s ~/dotfiles/.config/nvim ~/.config/nvim
+# Re-run install to create symlink
+./install.sh
+
+# Or manually symlink
+ln -s ~/dotfiles/.vimrc ~/.vimrc
 ```
 
-## Useful Nix Commands
+### Verify Symlinks
 
 ```bash
-# Search for packages
-nix search nixpkgs <package-name>
+./verify-links.sh
+```
 
-# See what's in your profile
-nix profile list
+## Shell Configurations
 
-# Update nixpkgs
-nix flake update
+### Zsh (Primary)
 
-# Garbage collect old packages
-nix-collect-garbage -d
+Heavily optimized for startup speed (<200ms):
+- Compinit caching (24-hour refresh)
+- Cached init scripts for zoxide, atuin, starship, carapace, fzf
+- Deferred syntax highlighting
+
+```bash
+# Measure startup time
+time zsh -i -c exit
+
+# Clear caches if needed
+rm -rf ~/.cache/zsh/
+```
+
+### Fish
+
+Alternative shell with same tool integrations.
+
+### Nushell
+
+Data-focused shell for structured data processing.
+
+## Neovim
+
+Modular Lua configuration with lazy.nvim:
+
+```bash
+# Health check
+nvim +checkhealth
+
+# Update plugins
+nvim +"Lazy update"
+
+# Check LSP status
+nvim +"LspInfo"
+```
+
+Key features:
+- LSP for C++, Rust, C#, Lua
+- fzf-lua for fuzzy finding
+- Treesitter for syntax
+- Copilot integration
+
+## Tool Stack
+
+**Shells:** zsh (primary), fish, nushell
+**Editors:** Neovim (primary), Helix
+**CLI:** eza, bat, fd, ripgrep, fzf, delta, zoxide, atuin
+**Multiplexer:** zellij
+**Git:** gh, delta pager
+
+## Non-Nixpkgs Packages
+
+Some packages aren't in nixpkgs:
+
+```bash
+# Claude Code
+npm install -g @anthropic-ai/claude-code
+```
+
+## Troubleshooting
+
+### Packages building from source?
+
+Check that binary caches are configured:
+
+```bash
+nix show-config | grep substituters
+# Should include cache.nixos.org and nix-community.cachix.org
+```
+
+### Shell startup slow?
+
+Clear cached init scripts:
+
+```bash
+rm -rf ~/.cache/zsh/
+rm -rf ~/.cache/fish/
+```
+
+### Symlinks broken?
+
+Re-run the install script:
+
+```bash
+./install.sh
+./verify-links.sh
 ```
