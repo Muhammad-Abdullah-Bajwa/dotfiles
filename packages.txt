@@ -1,15 +1,17 @@
 # Nix packages to install
 # One package per line, use package names from nixpkgs
 #
-# Install with: nix profile install nixpkgs#<package>
-# Or use flakes: nix profile install .# (installs all at once)
+# Install with: nix profile add nixpkgs#<package>
+# Or use flakes: nix profile add .# (installs all at once)
 #
 # Check package versions: nix eval --raw nixpkgs#<package>.version
 # Search packages: nix search nixpkgs <name>
 #
-# PACKAGES NOT IN NIXPKGS (install separately):
-#   claude-code: npm install -g @anthropic-ai/claude-code
-#   opencode: See https://github.com/opencode-ai/opencode
+# PACKAGES NOT IN NIXPKGS (install via ./post-install.sh):
+#   beads (bd):      go install github.com/steveyegge/beads/cmd/bd@latest
+#   beads-viewer:    go install github.com/Dicklesworthstone/beads_viewer/cmd/bv@latest
+#   opencode:        go install github.com/opencode-ai/opencode@latest
+#   claude-code:     npm install -g @anthropic-ai/claude-code
 #
 
 # ---------- Shell & Terminal ----------
@@ -48,11 +50,15 @@ zellij
 # ---------- Git & GitHub ----------
 gh
 
+# ---------- Development Toolchains ----------
+go
+rustup
+nodejs
+
 # ---------- Development Tools ----------
 jq
 tree-sitter
 zig
-nodejs
 
 # ---------- Utilities ----------
 curl

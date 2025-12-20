@@ -51,7 +51,7 @@ echo ""
 # Step 4: Install packages from flake
 echo "[4/4] Installing packages from flake..."
 echo "      This may take a moment..."
-nix profile install .#
+nix profile add .#
 echo "      Done."
 echo ""
 

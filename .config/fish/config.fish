@@ -177,3 +177,7 @@ end
 if test -f $HOME/.config/fish/config.custom.fish
     source $HOME/.config/fish/config.custom.fish
 end
+
+# post-install.sh: go and npm-global paths
+fish_add_path -g $HOME/.npm-global/bin
+fish_add_path -g $HOME/go/bin

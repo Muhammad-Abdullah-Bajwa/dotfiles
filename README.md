@@ -46,7 +46,7 @@ The script will:
 
 ```bash
 # Install all packages
-nix profile install .#
+nix profile add .#
 
 # Update nixpkgs to latest
 nix flake update
@@ -65,7 +65,7 @@ nix flake check
 ./install.sh --legacy
 
 # Install single package
-nix profile install nixpkgs#<package>
+nix profile add nixpkgs#<package>
 
 # Sync installed packages to packages.txt
 ./sync.sh

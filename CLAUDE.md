@@ -42,7 +42,7 @@ cd ~/dotfiles
 ### Package Management (Flake-Based - Recommended)
 ```bash
 # Install all packages from flake
-nix profile install .#
+nix profile add .#
 
 # Update nixpkgs to latest
 nix flake update
@@ -63,7 +63,7 @@ nix develop
 ./install.sh --legacy
 
 # Install single package manually
-nix profile install nixpkgs#<package>
+nix profile add nixpkgs#<package>
 
 # Sync installed packages to packages.txt
 ./sync.sh
@@ -235,9 +235,9 @@ Located in `.config/nvim/`, this is a **modular, lazy.nvim-based** config:
 
 ### When Adding New Packages
 Three workflows:
-1. **Flake (recommended)**: Add to `flake.nix` packageList, then `nix profile install .#`
+1. **Flake (recommended)**: Add to `flake.nix` packageList, then `nix profile add .#`
 2. **Declarative**: Add to `packages.txt`, then `./install.sh --legacy`
-3. **Imperative**: `nix profile install nixpkgs#<package>`, then run `./sync.sh`
+3. **Imperative**: `nix profile add nixpkgs#<package>`, then run `./sync.sh`
 
 ### When Adding New Dotfiles
 ```bash

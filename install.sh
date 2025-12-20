@@ -126,7 +126,7 @@ if [[ "$USE_FLAKES" == "yes" ]]; then
 
     # Install all packages from the flake
     echo -e "  ${BLUE}Installing packages (this may take a moment on first run)...${NC}"
-    if nix profile install ".#default" 2>/dev/null; then
+    if nix profile add ".#default" 2>/dev/null; then
         echo -e "${GREEN}  Packages installed successfully via flake${NC}"
     else
         # Package might already be installed, try upgrading
@@ -147,7 +147,7 @@ else
         package=$(echo "$package" | xargs)
 
         echo -n "  Installing $package... "
-        if nix profile install "nixpkgs#$package" 2>/dev/null; then
+        if nix profile add "nixpkgs#$package" 2>/dev/null; then
             echo -e "${GREEN}done${NC}"
         else
             # Package might already be installed

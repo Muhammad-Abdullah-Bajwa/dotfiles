@@ -230,3 +230,6 @@ gpr() {
     echo "📄 Current branch: $(git branch --show-current 2>/dev/null || echo 'not a git repo')"
     echo "💬 Ask Copilot: 'generate PR description'"
 }
+
+# post-install.sh: go and npm-global paths
+export PATH="$HOME/.npm-global/bin:$HOME/go/bin:$PATH"

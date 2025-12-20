@@ -8,7 +8,7 @@
   # USAGE:
   #   nix flake check          # Verify flake is valid
   #   nix flake update         # Update all inputs (nixpkgs)
-  #   nix profile install .#   # Install all packages
+  #   nix profile add .#   # Install all packages
   #   nix develop              # Enter dev shell with all packages
   #
   # WHY FLAKES?
@@ -106,20 +106,26 @@
         gh                        # GitHub CLI
         # Note: git is typically provided by the system
 
+        # ---------- Development Toolchains ----------
+        go                        # Go programming language (for go install)
+        rustup                    # Rust toolchain manager (provides cargo)
+        nodejs                    # Node.js + npm (required for Copilot, some LSPs)
+
         # ---------- Development Tools ----------
         jq                        # JSON processor
         tree-sitter               # Parser generator (for syntax highlighting)
         zig                       # Zig programming language
-        nodejs                    # Node.js (required for Copilot, some LSPs)
 
         # ---------- Utilities ----------
         curl                      # HTTP client
         bc                        # Calculator
         wrk                       # HTTP benchmarking tool
 
-        # ---------- NOT IN NIXPKGS (install separately) ----------
-        # claude-code             # Install via: npm install -g @anthropic-ai/claude-code
-        # opencode                # Not in nixpkgs - check alternative sources
+        # ---------- NOT IN NIXPKGS (install via post-install.sh) ----------
+        # beads              # Install via: go install (steveyegge/beads)
+        # beads-viewer       # Install via: go install (Dicklesworthstone/beads_viewer)
+        # opencode           # Install via: go install
+        # claude-code        # Install via: npm install -g @anthropic-ai/claude-code
       ];
 
     in
@@ -127,7 +133,7 @@
       # ========================================================================
       # PACKAGES OUTPUT
       # ========================================================================
-      # nix profile install .#   (installs the default package)
+      # nix profile add .#   (installs the default package)
       # nix build .#default      (builds without installing)
 
       packages = forAllSystems (system:
@@ -173,7 +179,10 @@
               echo "Installed packages:"
               echo "  Shells: zsh, fish, nushell"
               echo "  Editors: neovim, helix"
+              echo "  Toolchains: go, rustup (cargo), nodejs (npm)"
               echo "  CLI tools: eza, bat, fd, ripgrep, fzf, etc."
+              echo ""
+              echo "Run ./post-install.sh to install beads, opencode, claude-code"
               echo ""
             '';
           };

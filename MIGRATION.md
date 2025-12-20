@@ -72,7 +72,7 @@ nix flake check
 
 ```bash
 # Option A: Install all packages as a bundle
-nix profile install .#
+nix profile add .#
 
 # Option B: Keep existing packages, just verify flake works
 nix develop  # Enter shell with all packages
@@ -99,7 +99,7 @@ nix profile remove '.*'
 ### Step 2: Install from Flake
 
 ```bash
-nix profile install .#
+nix profile add .#
 ```
 
 ### Step 3: Verify Installation
@@ -190,7 +190,7 @@ git commit -m "chore(nix): update flake.lock"
 
 1. Edit `flake.nix` - add to `packageList`
 2. Edit `packages.txt` - add for documentation
-3. Run: `nix profile install .#`
+3. Run: `nix profile add .#`
 
 ## Performance Comparison
 
@@ -250,7 +250,7 @@ nix profile remove <index>
 
 # Or remove all and reinstall
 nix profile remove '.*'
-nix profile install .#
+nix profile add .#
 ```
 
 ## Future Enhancements
