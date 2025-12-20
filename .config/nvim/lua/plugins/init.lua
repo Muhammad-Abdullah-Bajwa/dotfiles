@@ -77,7 +77,7 @@ return {
   -- ============================================================================
   -- UI ENHANCEMENTS
   -- ============================================================================
-  -- Better UI for messages and cmdline
+  -- Snacks - Collection of QoL plugins (dashboard, notifications, etc.)
 
-  require('plugins.noice'),        -- Noice - better messages, cmdline, popupmenu
+  require('plugins.snacks'),       -- Snacks - dashboard, notifier, and utilities
 }

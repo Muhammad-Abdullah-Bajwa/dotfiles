@@ -49,51 +49,43 @@ return {
     build = ':TSUpdate',
 
     config = function()
-      -- Configure Treesitter with proper parser installation
-      require('nvim-treesitter').setup({
-        -- List of parsers to automatically install
-        ensure_installed = {
-          'bash',
-          'c',
-          'cpp',
-          'c_sharp',
-          'rust',
-          'lua',
-          'luadoc',
-          'markdown',
-          'vim',
-          'vimdoc',
-          'toml',
-          'json',
-          'yaml',
-          'python',
-        },
+      -- List of parsers to install
+      local parsers = {
+        'bash',
+        'c',
+        'cpp',
+        'c_sharp',
+        'rust',
+        'lua',
+        'luadoc',
+        'markdown',
+        'vim',
+        'vimdoc',
+        'toml',
+        'json',
+        'yaml',
+        'python',
+      }
 
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = false,
+      -- Configure Treesitter (minimal setup, new API doesn't use setup)
+      -- The new nvim-treesitter API is much simpler and doesn't need setup()
+      -- Just install parsers and they work automatically
 
-        -- Automatically install missing parsers when entering buffer
-        auto_install = true,
+      -- Install parsers on first run (this runs once when config loads)
+      vim.schedule(function()
+        require('nvim-treesitter').install(parsers)
+      end)
 
-        -- Enable syntax highlighting
-        highlight = {
-          enable = true,
-          -- Disable slow treesitter highlight for large files
-          disable = function(lang, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-          end,
-          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-          additional_vim_regex_highlighting = false,
-        },
-
-        -- Enable indentation based on treesitter
-        indent = {
-          enable = true,
-        },
+      -- Auto-install missing parsers when opening a file
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function(args)
+          local parser = vim.treesitter.language.get_lang(args.match)
+          if parser and not vim.treesitter.query.get(parser, 'highlights') then
+            vim.schedule(function()
+              vim.cmd('TSInstall! ' .. parser)
+            end)
+          end
+        end,
       })
 
       -- USEFUL TREESITTER COMMANDS:
