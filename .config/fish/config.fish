@@ -1,6 +1,9 @@
 # Optimized fish configuration
 # Fish is already fast by default, but we can still optimize tool initialization
 
+# Disable fish greeting
+set -g fish_greeting
+
 # ==============================================================================
 # 0. PATH SETUP (must be first!)
 # ==============================================================================
