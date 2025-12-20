@@ -134,6 +134,13 @@ return {
         { '<leader>s', group = '[S]earch' },     -- Search (fzf-lua)
         { '<leader>w', group = '[W]orkspace' },  -- Workspace actions
         { '<leader>t', group = '[T]oggle' },     -- Toggle features
+        { '<leader>y', group = '[Y]ank' },       -- Yank operations (normal mode)
+        -- Visual mode yank group and keymaps
+        { '<leader>y', group = '[Y]ank', mode = 'v' },
+        { '<leader>yc', desc = 'Yank code (markdown)', mode = 'v' },
+        { '<leader>yC', desc = 'Yank code + context', mode = 'v' },
+        { '<leader>yx', desc = 'Yank smart (treesitter)', mode = 'v' },
+        { '<leader>yr', desc = 'Yank replace (not append)', mode = 'v' },
       })
     end,
   },

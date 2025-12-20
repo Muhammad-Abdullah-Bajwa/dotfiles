@@ -1,0 +1,13 @@
+# Ghostty Configuration
+# Theme - Rose Pine (with auto light/dark switching)
+theme = Duskfox
+
+# Font settings
+font-family = "Iosevka NerdFont"
+font-size = 12
+
+# Keybindings
+keybind = shift+enter=text:\n
+
+# Default shell
+command = /Users/abdullahbajwa/.nix-profile/bin/fish

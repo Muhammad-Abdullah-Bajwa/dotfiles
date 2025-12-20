@@ -1,6 +1,6 @@
 --[[
 ================================================================================
-  COLORSCHEME - GRUVBOX
+  COLORSCHEMES - MULTIPLE THEMES WITH PICKER
 ================================================================================
 
   A colorscheme controls the colors used throughout Neovim:
@@ -8,50 +8,138 @@
   - UI elements (statusline, line numbers, popups, etc.)
   - Plugin highlights (diagnostics, search matches, etc.)
 
-  WHY GRUVBOX?
-  - Easy on the eyes (warm retro colors)
-  - Great contrast in dark mode
-  - Widely supported by other tools (terminal, IDE, etc.)
-  - "Hard" contrast variant is even easier to read
+  INSTALLED COLORSCHEMES:
+    - rose-pine (main, moon, dawn variants)
+    - duskfox (from nightfox.nvim)
 
-  ALTERNATIVES:
-  If you want to try a different colorscheme, some popular ones are:
-    - 'catppuccin/nvim'     -- Pastel colors, modern look
-    - 'folke/tokyonight.nvim' -- Purple/blue, very popular
-    - 'rebelot/kanagawa.nvim' -- Japanese-inspired, elegant
-    - 'rose-pine/neovim'    -- Soft, muted colors
-    - 'sainnhe/everforest'  -- Green-based, comfortable
+  QUICK SWITCH:
+  Use <leader>sc to open the colorscheme picker
 
-  TO CHANGE COLORSCHEME:
-  1. Replace this plugin spec with your preferred colorscheme
-  2. Update vim.cmd.colorscheme() to use the new name
+  TO ADD MORE COLORSCHEMES:
+  1. Add the plugin spec to the return table below
+  2. Add the colorscheme name to M.colorschemes table
   3. Restart Neovim
 
 --]]
 
+-- =============================================================================
+-- COLORSCHEME PICKER MODULE
+-- =============================================================================
+
+local M = {}
+
+-- List of colorschemes to show in the picker
+-- Add new colorschemes here when you install them
+M.colorschemes = {
+  'rose-pine',
+  'rose-pine-main',
+  'rose-pine-moon',
+  'rose-pine-dawn',
+  'duskfox',
+  'nightfox',
+  'dayfox',
+  'nordfox',
+  'terafox',
+  'carbonfox',
+}
+
+-- Pick a colorscheme using fzf-lua
+function M.pick_colorscheme()
+  local fzf = require('fzf-lua')
+
+  fzf.fzf_exec(M.colorschemes, {
+    prompt = 'Colorscheme❯ ',
+    winopts = {
+      height = 0.4,
+      width = 0.3,
+      row = 0.4,
+    },
+    actions = {
+      ['default'] = function(selected)
+        if selected and selected[1] then
+          vim.cmd.colorscheme(selected[1])
+          -- Save the selection so it persists (optional)
+          vim.g.current_colorscheme = selected[1]
+        end
+      end,
+    },
+    -- Preview the colorscheme as you navigate
+    fzf_opts = {
+      ['--preview-window'] = 'hidden',
+    },
+  })
+end
+
+-- Store module globally so keymaps can access it
+_G.ColorschemeModule = M
+
+-- =============================================================================
+-- PLUGIN SPECS
+-- =============================================================================
+
 return {
-  'zootedb0t/citruszest.nvim',
+  -- ===========================================================================
+  -- ROSÉ PINE
+  -- ===========================================================================
+  -- Soft, muted colors with elegant "soho vibes" aesthetic
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    priority = 1000,
 
-  -- PRIORITY: Load this plugin FIRST before other plugins
-  -- This ensures colors are available when other plugins load
-  -- Default priority is 50, colorschemes should use 1000
-  priority = 1000,
+    config = function()
+      require('rose-pine').setup({
+        variant = 'main',       -- 'main', 'moon', or 'dawn'
+        dark_variant = 'main',  -- Used when vim.o.background = 'dark'
 
-  -- CONFIG: Function that runs after the plugin loads
-  config = function()
-    -- Set up citruszest with our preferred options
-    require('citruszest').setup({
-      option = {
-        transparent = false,  -- Disable background transparency
-        bold = false,         -- Don't use bold globally
-        italic = true,        -- Enable italic for comments, etc.
-      },
-    })
+        styles = {
+          bold = false,
+          italic = true,
+          transparency = false,
+        },
 
-    -- ACTIVATE: Tell Neovim to use this colorscheme
-    -- This must be called AFTER setup() to apply our options
-    vim.cmd.colorscheme('citruszest')
-  end,
+        highlight_groups = {
+          Comment = { italic = true },
+        },
+      })
+    end,
+  },
+
+  -- ===========================================================================
+  -- NIGHTFOX (includes duskfox)
+  -- ===========================================================================
+  -- A highly customizable theme with multiple variants
+  -- Variants: nightfox, dayfox, dawnfox, duskfox, nordfox, terafox, carbonfox
+  {
+    'EdenEast/nightfox.nvim',
+    priority = 1000,
+
+    config = function()
+      require('nightfox').setup({
+        options = {
+          styles = {
+            comments = 'italic',
+            keywords = 'bold',
+            functions = 'NONE',
+          },
+          inverse = {
+            match_paren = false,
+          },
+        },
+      })
+
+      -- Set the default colorscheme (rose-pine)
+      -- Change this if you want a different default
+      vim.cmd.colorscheme('duskfox')
+
+      -- Register the colorscheme picker keymap
+      vim.keymap.set('n', '<leader>cs', function()
+        _G.ColorschemeModule.pick_colorscheme()
+      end, {
+        desc = '[C]olorscheme [S]witch',
+      })
+    end,
+  },
 }
 
 --[[

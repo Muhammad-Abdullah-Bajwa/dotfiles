@@ -158,8 +158,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', {
 --
 -- WORKFLOW EXAMPLE:
 -- 1. <leader>yX         -- Clear clipboard (start fresh)
--- 2. Go to file A, select code, <leader>ys  -- Smart yank (first item)
--- 3. Go to file B, select code, <leader>ys  -- Appends to clipboard
+-- 2. Go to file A, select code, <leader>yx  -- Smart yank (first item)
+-- 3. Go to file B, select code, <leader>yx  -- Appends to clipboard
 -- 4. Go to file C, <leader>yF              -- Append entire function
 -- 5. Paste everything into AI chat!
 --
@@ -449,7 +449,7 @@ end, { desc = 'Yank with surrounding context (appends)' })
 -- Treesitter parses your code into a syntax tree. Each piece of code
 -- is a "node" in the tree. Functions contain statements, classes contain
 -- functions, etc. We walk UP the tree to find containing structures.
-vim.keymap.set('v', '<leader>ys', function()
+vim.keymap.set('v', '<leader>yx', function()
   -- Get visual selection (same as other yanks)
   local start_line = vim.fn.line('v')
   local end_line = vim.fn.line('.')
@@ -630,7 +630,7 @@ vim.keymap.set('n', '<leader>yF', function()
   local func_node = nil
   local class_node = nil
 
-  -- Walk up to find function and class (same logic as <leader>ys)
+  -- Walk up to find function and class (same logic as <leader>yx)
   while node do
     local type = node:type()
 
@@ -683,7 +683,7 @@ vim.keymap.set('n', '<leader>yF', function()
   -- So we use func_end + 1 to include the last line
   local func_lines = vim.api.nvim_buf_get_lines(0, func_start, func_end + 1, false)
 
-  -- Build class context (simpler than <leader>ys - just one line)
+  -- Build class context (simpler than <leader>yx - just one line)
   local context = ''
   if class_node then
     local class_start, _, _, _ = class_node:range()
