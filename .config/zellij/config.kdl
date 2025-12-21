@@ -3,13 +3,14 @@
 // Basic settings
 default_shell "fish"
 pane_frames false
-theme "duskfox"
+theme "fluoromachine"
 simplified_ui true
 default_layout "compact"
 on_force_close "quit"
 copy_on_select true
 session_serialization false
 disable_session_metadata true
+show_startup_tips false
 
 // Keybindings
 keybinds {

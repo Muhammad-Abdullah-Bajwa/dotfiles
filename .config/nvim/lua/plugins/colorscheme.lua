@@ -31,6 +31,7 @@ local M = {}
 -- List of colorschemes to show in the picker
 -- Add new colorschemes here when you install them
 M.colorschemes = {
+  'fluoromachine',  -- Default: retrowave synthwave aesthetic
   'rose-pine',
   'rose-pine-main',
   'rose-pine-moon',
@@ -79,6 +80,40 @@ _G.ColorschemeModule = M
 
 return {
   -- ===========================================================================
+  -- FLUOROMACHINE (Synthwave/Retrowave aesthetic)
+  -- ===========================================================================
+  -- Neon-on-dark synthwave theme with glow effects
+  -- Variants: fluoromachine, retrowave, delta
+  {
+    'maxmx03/fluoromachine.nvim',
+    lazy = false,     -- Load immediately (it's our default theme)
+    priority = 1000,  -- Load before other plugins
+
+    config = function()
+      require('fluoromachine').setup({
+        theme = 'retrowave',  -- 'fluoromachine', 'retrowave', or 'delta'
+        glow = true,          -- Enable neon glow effect (CRT aesthetic)
+
+        overrides = {
+          -- Ensure comments are italic for readability
+          ['@comment'] = { italic = true },
+          ['Comment'] = { italic = true },
+        },
+      })
+
+      -- Set fluoromachine as the default colorscheme
+      vim.cmd.colorscheme('fluoromachine')
+
+      -- Register the colorscheme picker keymap
+      vim.keymap.set('n', '<leader>cs', function()
+        _G.ColorschemeModule.pick_colorscheme()
+      end, {
+        desc = '[C]olorscheme [S]witch',
+      })
+    end,
+  },
+
+  -- ===========================================================================
   -- ROSÉ PINE
   -- ===========================================================================
   -- Soft, muted colors with elegant "soho vibes" aesthetic
@@ -126,17 +161,6 @@ return {
             match_paren = false,
           },
         },
-      })
-
-      -- Set the default colorscheme (rose-pine)
-      -- Change this if you want a different default
-      vim.cmd.colorscheme('duskfox')
-
-      -- Register the colorscheme picker keymap
-      vim.keymap.set('n', '<leader>cs', function()
-        _G.ColorschemeModule.pick_colorscheme()
-      end, {
-        desc = '[C]olorscheme [S]witch',
       })
     end,
   },

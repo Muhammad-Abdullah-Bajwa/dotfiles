@@ -1,6 +1,6 @@
 # Ghostty Configuration
-# Theme - Rose Pine (with auto light/dark switching)
-theme = Duskfox
+# Theme - Synthwave Everything (matches fluoromachine retrowave)
+theme = Synthwave Everything
 
 # Font settings
 font-family = "Iosevka NerdFont"
@@ -9,5 +9,5 @@ font-size = 12
 # Keybindings
 keybind = shift+enter=text:\n
 
-# Default shell
-command = /Users/abdullahbajwa/.nix-profile/bin/fish
+# Default command - auto-attach to zellij session
+command = zellij attach --create
