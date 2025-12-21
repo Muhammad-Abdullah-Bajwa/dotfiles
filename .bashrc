@@ -108,6 +108,13 @@ fi
 if [[ -f "$HOME/.bashrc.custom" ]]; then
     source "$HOME/.bashrc.custom"
 fi
-export PATH="$PATH:/home/abdullahbajwa/.local/bin"
-. "$HOME/.cargo/env"
-. "/home/abdullahbajwa/.cargo/env"
+
+# Add local bin to PATH if it exists
+if [[ -d "$HOME/.local/bin" ]]; then
+    export PATH="$PATH:$HOME/.local/bin"
+fi
+
+# Source Rust cargo environment if it exists
+if [[ -f "$HOME/.cargo/env" ]]; then
+    . "$HOME/.cargo/env"
+fi
