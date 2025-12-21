@@ -11,6 +11,7 @@ This is a **dotfiles repository** managed with Nix flakes and symlinks. It conta
 ```
 ~/dotfiles/
 ├── install.sh          # Bootstrap: installs Nix, configures caches, installs packages
+├── post-install.sh     # Optional post-install tasks and additional tools
 ├── sync.sh             # Syncs installed packages and updates flake.lock
 ├── verify-links.sh     # Verifies all symlinks are correct
 ├── flake.nix           # Nix flake definition (reproducible packages)
@@ -42,7 +43,7 @@ cd ~/dotfiles
 ### Package Management (Flake-Based - Recommended)
 ```bash
 # Install all packages from flake
-nix profile add .#
+nix profile add .#default
 
 # Update nixpkgs to latest
 nix flake update
@@ -133,9 +134,91 @@ Configured in `.config/nix/nix.conf` for fast package downloads:
 Most packages download in seconds instead of building from source.
 
 ### Symlinking Strategy
-- **Top-level dotfiles** (`.bashrc`, `.zshrc`, `.gitconfig`) are symlinked directly to `~/`
-- **Config directories** (`.config/nvim`, `.config/fish`, etc.) are symlinked as entire directories to `~/.config/`
-- The `install.sh` script backs up existing files/dirs before creating symlinks
+
+**CRITICAL: Understand this before making any symlink changes!**
+
+This repository uses a **two-tier symlinking strategy**:
+
+#### 1. File-Level Symlinks (Top-Level Dotfiles)
+Top-level dotfiles are symlinked as individual files:
+```
+~/.zshrc     → ~/dotfiles/.zshrc      (file symlink)
+~/.bashrc    → ~/dotfiles/.bashrc     (file symlink)
+~/.gitconfig → ~/dotfiles/.gitconfig  (file symlink)
+```
+
+#### 2. Directory-Level Symlinks (.config/)
+`.config` subdirectories are symlinked as **entire directories**, not individual files:
+```
+~/.config/nix/     → ~/dotfiles/.config/nix/     (directory symlink)
+~/.config/nvim/    → ~/dotfiles/.config/nvim/    (directory symlink)
+~/.config/fish/    → ~/dotfiles/.config/fish/    (directory symlink)
+~/.config/helix/   → ~/dotfiles/.config/helix/   (directory symlink)
+~/.config/zellij/  → ~/dotfiles/.config/zellij/  (directory symlink)
+~/.config/atuin/   → ~/dotfiles/.config/atuin/   (directory symlink)
+```
+
+**Inside these directory-symlinked paths, all files are regular files:**
+```
+~/dotfiles/.config/nix/nix.conf       (regular file, NOT a symlink)
+~/dotfiles/.config/nvim/init.lua      (regular file, NOT a symlink)
+~/dotfiles/.config/fish/config.fish   (regular file, NOT a symlink)
+```
+
+#### How to Diagnose Symlink Issues
+
+**BEFORE attempting any symlink fixes, check the directory first:**
+```bash
+# Check if a directory is symlinked
+ls -ld ~/.config/nix
+
+# If output shows "lrwxr-xr-x" and "->", it's a directory symlink!
+# Example: ~/.config/nix -> /Users/you/dotfiles/.config/nix
+```
+
+#### What NOT to Do ⚠️
+
+**NEVER create file-level symlinks inside directory-symlinked paths!**
+
+For example, if `~/.config/nix/` is already a directory symlink, **do NOT do this:**
+```bash
+# ❌ WRONG - Creates a symlink loop!
+ln -s ~/dotfiles/.config/nix/nix.conf ~/.config/nix/nix.conf
+
+# Why it breaks:
+# ~/.config/nix/ → ~/dotfiles/.config/nix/  (directory symlink)
+# When you create ~/.config/nix/nix.conf → ~/dotfiles/.config/nix/nix.conf
+# It actually creates: ~/dotfiles/.config/nix/nix.conf → ~/dotfiles/.config/nix/nix.conf
+# Result: INFINITE LOOP! ♾️
+```
+
+#### How to Fix Broken Files in Directory-Symlinked Paths
+
+If a file inside a directory-symlinked path is broken (e.g., `~/dotfiles/.config/nix/nix.conf`):
+
+**✅ CORRECT approach:**
+```bash
+# 1. Restore the regular file from git
+git -C ~/dotfiles checkout HEAD -- .config/nix/nix.conf
+
+# OR manually extract from git history
+git -C ~/dotfiles show HEAD:.config/nix/nix.conf > ~/dotfiles/.config/nix/nix.conf
+
+# 2. Verify it's a regular file (NOT a symlink)
+file ~/dotfiles/.config/nix/nix.conf
+# Should say: "ASCII text" (not "symbolic link")
+
+# 3. Test access through the directory symlink
+cat ~/.config/nix/nix.conf
+# Should work automatically via the directory symlink
+```
+
+**The directory symlink handles everything - no file symlinks needed!**
+
+#### Setup Details
+- The `install.sh` script creates all symlinks automatically
+- Backs up existing files/dirs before creating symlinks (`.backup.YYYYMMDD_HHMMSS`)
+- Use `./verify-links.sh` to check all symlinks are correct
 
 ### Shell Configuration Philosophy (.zshrc)
 The `.zshrc` is heavily optimized for startup speed (target: <200ms):
