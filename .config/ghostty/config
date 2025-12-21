@@ -10,4 +10,4 @@ font-size = 12
 keybind = shift+enter=text:\n
 
 # Default command - auto-attach to zellij session
-command = zellij attach --create
+command = /Users/abdullahbajwa/.nix-profile/bin/fish -c "zellij attach --create"

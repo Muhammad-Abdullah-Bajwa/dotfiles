@@ -124,6 +124,10 @@ if command -v delta >/dev/null 2>&1
     set -gx GIT_PAGER delta
 end
 
+# AI coding assistants
+alias cc='claude'
+alias oc='opencode'
+
 # ==============================================================================
 # 5. FZF CONFIGURATION
 # ==============================================================================

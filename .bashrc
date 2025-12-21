@@ -73,6 +73,10 @@ if command -v delta >/dev/null 2>&1; then
     export GIT_PAGER=delta
 fi
 
+# AI coding assistants
+alias cc='claude'
+alias oc='opencode'
+
 # Carapace completion setup with interactive menu
 if command -v carapace >/dev/null 2>&1; then
     export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'

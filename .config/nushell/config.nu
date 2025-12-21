@@ -38,6 +38,10 @@ if (which bat | is-not-empty) {
     alias cat = bat --paging=never
 }
 
+# AI coding assistants
+alias cc = claude
+alias oc = opencode
+
 # Zoxide setup
 if (which zoxide | is-not-empty) {
     zoxide init nushell | save -f ~/.config/nushell/zoxide.nu

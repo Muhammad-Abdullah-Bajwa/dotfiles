@@ -135,6 +135,10 @@ alias gla='git log --oneline --all --graph'
 
 (( $+commands[delta] )) && export GIT_PAGER=delta
 
+# AI coding assistants
+alias cc='claude'
+alias oc='opencode'
+
 # ==============================================================================
 # 6. FZF CONFIGURATION (just env vars, fast)
 # ==============================================================================
