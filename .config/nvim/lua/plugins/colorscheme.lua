@@ -9,6 +9,9 @@
   - Plugin highlights (diagnostics, search matches, etc.)
 
   INSTALLED COLORSCHEMES:
+    - dracula (default - high contrast purple/pink)
+    - shades_of_purple (all-in on purple, VS Code port)
+    - spaceduck (cosmic dark theme)
     - rose-pine (main, moon, dawn variants)
     - duskfox (from nightfox.nvim)
 
@@ -31,7 +34,10 @@ local M = {}
 -- List of colorschemes to show in the picker
 -- Add new colorschemes here when you install them
 M.colorschemes = {
-  'fluoromachine',  -- Default: retrowave synthwave aesthetic
+  'dracula',           -- Default: high contrast purple/pink classic
+  'shades_of_purple',  -- All-in on purple, high contrast
+  'spaceduck',         -- Cosmic dark theme with deep blues
+  'fluoromachine',     -- Retrowave synthwave aesthetic
   'rose-pine',
   'rose-pine-main',
   'rose-pine-moon',
@@ -80,14 +86,71 @@ _G.ColorschemeModule = M
 
 return {
   -- ===========================================================================
+  -- DRACULA (High contrast purple/pink)
+  -- ===========================================================================
+  -- The classic dark theme with excellent readability
+  -- Purple, pink, cyan, green accents on dark background
+  {
+    'Mofiqul/dracula.nvim',
+    lazy = false,     -- Load immediately (it's our default theme)
+    priority = 1000,  -- Load before other plugins
+
+    config = function()
+      require('dracula').setup({
+        -- Use transparent background (set to true if your terminal supports it)
+        transparent_bg = false,
+        -- Italic comments for readability
+        italic_comment = true,
+      })
+
+      -- Set dracula as the default colorscheme
+      vim.cmd.colorscheme('dracula')
+
+      -- Register the colorscheme picker keymap
+      vim.keymap.set('n', '<leader>cs', function()
+        _G.ColorschemeModule.pick_colorscheme()
+      end, {
+        desc = '[C]olorscheme [S]witch',
+      })
+    end,
+  },
+
+  -- ===========================================================================
+  -- SHADES OF PURPLE (All-in on purple)
+  -- ===========================================================================
+  -- A professional dark theme with bold purple tones
+  -- Ported from the popular VS Code theme by Ahmad Awais
+  {
+    'Rigellute/shades-of-purple.vim',
+    lazy = true,      -- Load on demand
+    priority = 1000,
+  },
+
+  -- ===========================================================================
+  -- SPACEDUCK (Cosmic dark theme)
+  -- ===========================================================================
+  -- Deep space blues with cream/yellow accents
+  -- A muted, cosmic aesthetic for long coding sessions
+  {
+    'pineapplegiant/spaceduck',
+    branch = 'main',
+    lazy = true,      -- Load on demand (no longer default)
+    priority = 1000,
+
+    config = function()
+      vim.opt.termguicolors = true
+    end,
+  },
+
+  -- ===========================================================================
   -- FLUOROMACHINE (Synthwave/Retrowave aesthetic)
   -- ===========================================================================
   -- Neon-on-dark synthwave theme with glow effects
   -- Variants: fluoromachine, retrowave, delta
   {
     'maxmx03/fluoromachine.nvim',
-    lazy = false,     -- Load immediately (it's our default theme)
-    priority = 1000,  -- Load before other plugins
+    lazy = true,      -- Load on demand (no longer default)
+    priority = 1000,
 
     config = function()
       require('fluoromachine').setup({
@@ -99,16 +162,6 @@ return {
           ['@comment'] = { italic = true },
           ['Comment'] = { italic = true },
         },
-      })
-
-      -- Set fluoromachine as the default colorscheme
-      vim.cmd.colorscheme('fluoromachine')
-
-      -- Register the colorscheme picker keymap
-      vim.keymap.set('n', '<leader>cs', function()
-        _G.ColorschemeModule.pick_colorscheme()
-      end, {
-        desc = '[C]olorscheme [S]witch',
       })
     end,
   },

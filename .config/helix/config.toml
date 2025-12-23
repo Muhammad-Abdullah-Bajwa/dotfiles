@@ -1,7 +1,7 @@
 # Helix Editor Configuration
 
-# Theme - Rose Pine
-theme = "rose_pine"
+# Theme - Dracula (high contrast purple/pink)
+theme = "dracula"
 
 [editor]
 line-number = "relative"

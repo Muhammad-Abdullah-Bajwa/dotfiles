@@ -1,0 +1,185 @@
+# Spaceduck theme for Helix
+# https://github.com/pineapplegiant/spaceduck
+# Ported from the Vim/Neovim spaceduck colorscheme
+
+[palette]
+# Main colors
+foreground = "#ecf0c1"
+background = "#0f111b"
+background_dark = "#000000"
+
+# Accent colors
+purple = "#7a5ccc"
+blue = "#00a3cc"
+green = "#5ccc96"
+yellow = "#f2ce00"
+red = "#e33400"
+lavender = "#b3a1e6"
+orange = "#e39400"
+
+# UI colors
+comment = "#818bb3"
+selection = "#1b1c36"
+visual = "#16172d"
+cursor = "#ecf0c1"
+cursor_line = "#16172d"
+
+# ============================================================================
+# UI ELEMENTS
+# ============================================================================
+
+"ui.background" = { bg = "background" }
+"ui.window" = { fg = "comment" }
+"ui.linenr" = { fg = "comment" }
+"ui.linenr.selected" = { fg = "foreground" }
+"ui.cursorline" = { bg = "cursor_line" }
+"ui.statusline" = { fg = "foreground", bg = "selection" }
+"ui.statusline.inactive" = { fg = "comment", bg = "background_dark" }
+"ui.statusline.normal" = { fg = "background", bg = "purple" }
+"ui.statusline.insert" = { fg = "background", bg = "green" }
+"ui.statusline.select" = { fg = "background", bg = "lavender" }
+"ui.popup" = { fg = "foreground", bg = "selection" }
+"ui.help" = { fg = "foreground", bg = "selection" }
+"ui.text" = { fg = "foreground" }
+"ui.text.focus" = { fg = "foreground", bg = "selection" }
+"ui.text.inactive" = { fg = "comment" }
+"ui.virtual" = { fg = "comment" }
+"ui.virtual.ruler" = { bg = "selection" }
+"ui.virtual.whitespace" = { fg = "comment" }
+"ui.virtual.indent-guide" = { fg = "selection" }
+"ui.menu" = { fg = "foreground", bg = "selection" }
+"ui.menu.selected" = { fg = "foreground", bg = "purple" }
+"ui.menu.scroll" = { fg = "comment", bg = "selection" }
+"ui.selection" = { bg = "visual" }
+"ui.selection.primary" = { bg = "selection" }
+"ui.cursor" = { fg = "background", bg = "cursor" }
+"ui.cursor.primary" = { fg = "background", bg = "cursor" }
+"ui.cursor.match" = { fg = "yellow", modifiers = ["bold"] }
+"ui.cursorline.primary" = { bg = "cursor_line" }
+"ui.bufferline" = { fg = "comment", bg = "background_dark" }
+"ui.bufferline.active" = { fg = "foreground", bg = "selection" }
+"ui.bufferline.background" = { bg = "background_dark" }
+"ui.gutter" = { bg = "background" }
+
+# ============================================================================
+# DIAGNOSTICS
+# ============================================================================
+
+"error" = { fg = "red" }
+"warning" = { fg = "yellow" }
+"info" = { fg = "blue" }
+"hint" = { fg = "green" }
+
+"diagnostic.error" = { underline = { color = "red", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "yellow", style = "curl" } }
+"diagnostic.info" = { underline = { color = "blue", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "green", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+# ============================================================================
+# DIFF
+# ============================================================================
+
+"diff.plus" = { fg = "green" }
+"diff.minus" = { fg = "red" }
+"diff.delta" = { fg = "yellow" }
+
+# ============================================================================
+# MARKUP (Markdown, etc.)
+# ============================================================================
+
+"markup.heading" = { fg = "purple", modifiers = ["bold"] }
+"markup.heading.1" = { fg = "purple", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "lavender", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "blue", modifiers = ["bold"] }
+"markup.heading.4" = { fg = "green" }
+"markup.heading.5" = { fg = "yellow" }
+"markup.heading.6" = { fg = "comment" }
+"markup.list" = { fg = "purple" }
+"markup.bold" = { fg = "yellow", modifiers = ["bold"] }
+"markup.italic" = { fg = "lavender", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link" = { fg = "blue" }
+"markup.link.url" = { fg = "comment", modifiers = ["underlined"] }
+"markup.link.text" = { fg = "lavender" }
+"markup.quote" = { fg = "comment", modifiers = ["italic"] }
+"markup.raw" = { fg = "green" }
+"markup.raw.inline" = { fg = "green" }
+"markup.raw.block" = { fg = "foreground", bg = "background_dark" }
+
+# ============================================================================
+# SYNTAX HIGHLIGHTING
+# ============================================================================
+
+"comment" = { fg = "comment", modifiers = ["italic"] }
+"comment.line" = { fg = "comment", modifiers = ["italic"] }
+"comment.block" = { fg = "comment", modifiers = ["italic"] }
+"comment.block.documentation" = { fg = "comment", modifiers = ["italic"] }
+
+"constant" = { fg = "lavender" }
+"constant.builtin" = { fg = "lavender" }
+"constant.builtin.boolean" = { fg = "lavender" }
+"constant.character" = { fg = "green" }
+"constant.character.escape" = { fg = "orange" }
+"constant.numeric" = { fg = "lavender" }
+"constant.numeric.integer" = { fg = "lavender" }
+"constant.numeric.float" = { fg = "lavender" }
+
+"string" = { fg = "green" }
+"string.regexp" = { fg = "orange" }
+"string.special" = { fg = "green" }
+"string.special.path" = { fg = "green" }
+"string.special.url" = { fg = "blue", modifiers = ["underlined"] }
+"string.special.symbol" = { fg = "lavender" }
+
+"type" = { fg = "yellow" }
+"type.builtin" = { fg = "yellow" }
+"type.enum" = { fg = "yellow" }
+"type.enum.variant" = { fg = "lavender" }
+
+"constructor" = { fg = "purple" }
+
+"function" = { fg = "blue" }
+"function.builtin" = { fg = "blue" }
+"function.macro" = { fg = "purple" }
+"function.method" = { fg = "blue" }
+"function.special" = { fg = "purple" }
+
+"variable" = { fg = "foreground" }
+"variable.builtin" = { fg = "lavender" }
+"variable.parameter" = { fg = "foreground" }
+"variable.other" = { fg = "foreground" }
+"variable.other.member" = { fg = "foreground" }
+
+"label" = { fg = "purple" }
+
+"punctuation" = { fg = "foreground" }
+"punctuation.bracket" = { fg = "foreground" }
+"punctuation.delimiter" = { fg = "foreground" }
+"punctuation.special" = { fg = "purple" }
+
+"keyword" = { fg = "purple" }
+"keyword.control" = { fg = "purple" }
+"keyword.control.conditional" = { fg = "purple" }
+"keyword.control.repeat" = { fg = "purple" }
+"keyword.control.import" = { fg = "purple" }
+"keyword.control.return" = { fg = "purple" }
+"keyword.control.exception" = { fg = "red" }
+"keyword.operator" = { fg = "purple" }
+"keyword.directive" = { fg = "purple" }
+"keyword.function" = { fg = "purple" }
+"keyword.storage" = { fg = "purple" }
+"keyword.storage.type" = { fg = "purple" }
+"keyword.storage.modifier" = { fg = "purple" }
+
+"operator" = { fg = "purple" }
+
+"namespace" = { fg = "yellow" }
+
+"attribute" = { fg = "lavender" }
+
+"special" = { fg = "purple" }
+
+"tag" = { fg = "purple" }
+"tag.builtin" = { fg = "purple" }
