@@ -1,0 +1,128 @@
+// Shades of Purple theme for Zellij
+// https://github.com/ahmadawais/shades-of-purple-vscode
+//
+// Palette reference:
+//   fg:         #a599e9 (165, 153, 233) - soft lavender
+//   bg:         #2d2b55 (45, 43, 85)    - deep purple
+//   selection:  #4d21fc (77, 33, 252)   - bright purple
+//   comment:    #b362ff (179, 98, 255)  - vivid purple
+//   cyan:       #80ffea (128, 255, 234)
+//   green:      #a5ff90 (165, 255, 144)
+//   orange:     #ff9d00 (255, 157, 0)
+//   pink:       #ff628c (255, 98, 140)
+//   purple:     #a599e9 (165, 153, 233)
+//   red:        #ff628c (255, 98, 140)
+//   yellow:     #fad000 (250, 208, 0)
+
+themes {
+    shades-of-purple {
+        ribbon_unselected {
+            base 165 153 233        // fg (lavender)
+            background 45 43 85     // bg (deep purple)
+            emphasis_0 255 98 140   // pink
+            emphasis_1 179 98 255   // vivid purple
+            emphasis_2 165 255 144  // green
+            emphasis_3 128 255 234  // cyan
+        }
+        ribbon_selected {
+            base 255 255 255        // white for selected
+            background 77 33 252    // selection (bright purple)
+            emphasis_0 255 98 140   // pink
+            emphasis_1 250 208 0    // yellow accent
+            emphasis_2 165 255 144  // green
+            emphasis_3 128 255 234  // cyan
+        }
+        text_unselected {
+            base 165 153 233
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 179 98 255
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        text_selected {
+            base 255 255 255
+            background 77 33 252
+            emphasis_0 255 98 140
+            emphasis_1 250 208 0
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        table_title {
+            base 165 153 233
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 179 98 255
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        table_cell_unselected {
+            base 165 153 233
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 179 98 255
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        table_cell_selected {
+            base 255 255 255
+            background 77 33 252
+            emphasis_0 255 98 140
+            emphasis_1 250 208 0
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        frame_unselected {
+            base 90 85 140          // muted purple for inactive
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 179 98 255
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        frame_selected {
+            base 250 208 0          // yellow for active frame (signature accent)
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 179 98 255
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        exit_code_success {
+            base 165 255 144        // green
+            background 45 43 85
+            emphasis_0 165 255 144
+            emphasis_1 165 255 144
+            emphasis_2 165 255 144
+            emphasis_3 165 255 144
+        }
+        exit_code_error {
+            base 255 98 140         // pink/red
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 255 98 140
+            emphasis_2 255 98 140
+            emphasis_3 255 98 140
+        }
+        frame_highlight {
+            base 250 208 0          // yellow
+            background 45 43 85
+            emphasis_0 255 98 140
+            emphasis_1 179 98 255
+            emphasis_2 165 255 144
+            emphasis_3 128 255 234
+        }
+        multiplayer_user_colors {
+            player_1 255 98 140     // pink
+            player_2 179 98 255     // purple
+            player_3 165 255 144    // green
+            player_4 128 255 234    // cyan
+            player_5 250 208 0      // yellow
+            player_6 255 157 0      // orange
+            player_7 255 98 140     // red/pink
+            player_8 165 153 233    // fg
+            player_9 90 85 140      // muted
+            player_10 77 33 252     // selection
+        }
+    }
+}

@@ -1,7 +1,7 @@
 # Helix Editor Configuration
 
-# Theme - Dracula (high contrast purple/pink)
-theme = "dracula"
+# Theme - Shades of Purple (bold purple aesthetic)
+theme = "shades-of-purple"
 
 [editor]
 line-number = "relative"

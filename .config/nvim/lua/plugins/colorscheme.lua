@@ -9,8 +9,8 @@
   - Plugin highlights (diagnostics, search matches, etc.)
 
   INSTALLED COLORSCHEMES:
-    - dracula (default - high contrast purple/pink)
-    - shades_of_purple (all-in on purple, VS Code port)
+    - shades_of_purple (default - all-in on purple, VS Code port)
+    - dracula (high contrast purple/pink)
     - spaceduck (cosmic dark theme)
     - rose-pine (main, moon, dawn variants)
     - duskfox (from nightfox.nvim)
@@ -86,25 +86,19 @@ _G.ColorschemeModule = M
 
 return {
   -- ===========================================================================
-  -- DRACULA (High contrast purple/pink)
+  -- SHADES OF PURPLE (All-in on purple) - DEFAULT
   -- ===========================================================================
-  -- The classic dark theme with excellent readability
-  -- Purple, pink, cyan, green accents on dark background
+  -- A professional dark theme with bold purple tones
+  -- Ported from the popular VS Code theme by Ahmad Awais
+  -- Colors: Background #2D2B55, Foreground #A599E9, Accent #FAD000
   {
-    'Mofiqul/dracula.nvim',
+    'Rigellute/shades-of-purple.vim',
     lazy = false,     -- Load immediately (it's our default theme)
     priority = 1000,  -- Load before other plugins
 
     config = function()
-      require('dracula').setup({
-        -- Use transparent background (set to true if your terminal supports it)
-        transparent_bg = false,
-        -- Italic comments for readability
-        italic_comment = true,
-      })
-
-      -- Set dracula as the default colorscheme
-      vim.cmd.colorscheme('dracula')
+      -- Set shades_of_purple as the default colorscheme
+      vim.cmd.colorscheme('shades_of_purple')
 
       -- Register the colorscheme picker keymap
       vim.keymap.set('n', '<leader>cs', function()
@@ -116,14 +110,23 @@ return {
   },
 
   -- ===========================================================================
-  -- SHADES OF PURPLE (All-in on purple)
+  -- DRACULA (High contrast purple/pink)
   -- ===========================================================================
-  -- A professional dark theme with bold purple tones
-  -- Ported from the popular VS Code theme by Ahmad Awais
+  -- The classic dark theme with excellent readability
+  -- Purple, pink, cyan, green accents on dark background
   {
-    'Rigellute/shades-of-purple.vim',
+    'Mofiqul/dracula.nvim',
     lazy = true,      -- Load on demand
     priority = 1000,
+
+    config = function()
+      require('dracula').setup({
+        -- Use transparent background (set to true if your terminal supports it)
+        transparent_bg = false,
+        -- Italic comments for readability
+        italic_comment = true,
+      })
+    end,
   },
 
   -- ===========================================================================
