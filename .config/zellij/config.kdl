@@ -51,6 +51,13 @@ keybinds {
         bind "v" { NewPane "Right"; SwitchToMode "normal"; }
         bind "s" { NewPane "Down"; SwitchToMode "normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+        bind "w" { CloseFocus; SwitchToMode "normal"; }
+
+        // Pane navigation
+        bind "Left" { MoveFocus "Left"; SwitchToMode "normal"; }
+        bind "Right" { MoveFocus "Right"; SwitchToMode "normal"; }
+        bind "Up" { MoveFocus "Up"; SwitchToMode "normal"; }
+        bind "Down" { MoveFocus "Down"; SwitchToMode "normal"; }
 
         // Session management
         bind "d" { Detach; }
