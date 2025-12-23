@@ -139,6 +139,51 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', {
 --   <C-w>|               -- Maximize current window width
 
 --------------------------------------------------------------------------------
+-- BUFFER MANAGEMENT
+--------------------------------------------------------------------------------
+-- WINDOWS vs BUFFERS:
+-- - A BUFFER is a file loaded into memory (like a "document")
+-- - A WINDOW is a viewport showing a buffer (like a "pane")
+-- - Multiple windows can show the same buffer
+-- - Closing a window (:q) doesn't close the buffer!
+--
+-- Example:
+-- ┌─────────────────────────────────────────────┐
+-- │ Window 1        │ Window 2                  │
+-- │ (Buffer: a.lua) │ (Buffer: b.lua)           │
+-- └─────────────────────────────────────────────┘
+-- If you :q Window 1, Buffer a.lua is still open in background!
+-- Use these keymaps to actually close buffers.
+
+-- Close current buffer
+-- :bdelete removes the buffer from the buffer list but keeps it in memory
+-- (can be accessed with :buffer <name> if needed)
+vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', {
+  desc = 'Close buffer',
+})
+
+-- Force close buffer (discard unsaved changes)
+-- The '!' makes it ignore unsaved changes - use carefully!
+vim.keymap.set('n', '<leader>bD', '<cmd>bdelete!<CR>', {
+  desc = 'Force close buffer (discard changes)',
+})
+
+-- Close all other buffers (keep only current one)
+-- %bdelete = close ALL buffers
+-- e# = reopen the alternate file (last buffer we were in)
+-- bd# = delete that alternate buffer, leaving only current
+vim.keymap.set('n', '<leader>bo', '<cmd>%bdelete|e#|bd#<CR>', {
+  desc = 'Close other buffers',
+})
+
+-- TIP: Useful buffer commands:
+--   :ls or :buffers      -- List all open buffers
+--   :bnext or :bn        -- Go to next buffer
+--   :bprev or :bp        -- Go to previous buffer
+--   :buffer <name>       -- Switch to buffer by name
+--   :b <partial>         -- Switch with tab-completion
+
+--------------------------------------------------------------------------------
 -- SMART YANK COMMANDS FOR AI CONTEXT
 --------------------------------------------------------------------------------
 -- These keymaps help you copy code with rich context for AI assistants.
