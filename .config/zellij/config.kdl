@@ -3,7 +3,7 @@
 // Basic settings
 default_shell "fish"
 pane_frames false
-theme "shades-of-purple"
+theme "onedark"
 simplified_ui true
 default_layout "compact"
 on_force_close "quit"

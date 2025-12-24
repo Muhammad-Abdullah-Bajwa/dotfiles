@@ -176,7 +176,40 @@ else
 fi
 
 # ==============================================================================
-# STEP 5: SYMLINK DOTFILES
+# STEP 5: INSTALL HOMEBREW & CASKS (macOS only)
+# ==============================================================================
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    echo -e "${YELLOW}==> Setting up Homebrew for macOS GUI apps...${NC}"
+
+    if ! command -v brew &>/dev/null; then
+        echo -e "  ${BLUE}Installing Homebrew...${NC}"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+        # Add Homebrew to PATH for this session (Apple Silicon)
+        if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+
+        echo -e "  ${GREEN}Homebrew installed${NC}"
+    else
+        echo -e "  ${GREEN}Homebrew already installed${NC}"
+    fi
+
+    # Install from Brewfile if it exists
+    if [[ -f "$DOTFILES_DIR/Brewfile" ]]; then
+        echo -e "  ${BLUE}Installing apps from Brewfile...${NC}"
+        brew bundle --file="$DOTFILES_DIR/Brewfile"
+        echo -e "  ${GREEN}Brewfile apps installed${NC}"
+    else
+        echo -e "  ${YELLOW}No Brewfile found, skipping cask installation${NC}"
+    fi
+else
+    echo -e "${BLUE}==> Skipping Homebrew (not on macOS)${NC}"
+fi
+
+# ==============================================================================
+# STEP 6: SYMLINK DOTFILES
 # ==============================================================================
 
 echo -e "${YELLOW}==> Symlinking dotfiles...${NC}"
@@ -229,7 +262,7 @@ if [ -d "$DOTFILES_DIR/.config" ]; then
 fi
 
 # ==============================================================================
-# STEP 6: VERIFICATION
+# STEP 7: VERIFICATION
 # ==============================================================================
 
 echo ""

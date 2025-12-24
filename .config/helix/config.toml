@@ -1,7 +1,7 @@
 # Helix Editor Configuration
 
-# Theme - Shades of Purple (bold purple aesthetic)
-theme = "shades-of-purple"
+# Theme - OneDark (Atom's iconic dark theme)
+theme = "onedark"
 
 [editor]
 line-number = "relative"

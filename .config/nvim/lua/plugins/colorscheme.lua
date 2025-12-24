@@ -9,7 +9,8 @@
   - Plugin highlights (diagnostics, search matches, etc.)
 
   INSTALLED COLORSCHEMES:
-    - shades_of_purple (default - all-in on purple, VS Code port)
+    - onedark (default - Atom's classic dark theme)
+    - shades_of_purple (bold purple, VS Code port)
     - dracula (high contrast purple/pink)
     - spaceduck (cosmic dark theme)
     - rose-pine (main, moon, dawn variants)
@@ -34,7 +35,8 @@ local M = {}
 -- List of colorschemes to show in the picker
 -- Add new colorschemes here when you install them
 M.colorschemes = {
-  'dracula',           -- Default: high contrast purple/pink classic
+  'onedark',           -- Default: Atom's iconic dark theme
+  'dracula',           -- High contrast purple/pink classic
   'shades_of_purple',  -- All-in on purple, high contrast
   'spaceduck',         -- Cosmic dark theme with deep blues
   'fluoromachine',     -- Retrowave synthwave aesthetic
@@ -86,19 +88,50 @@ _G.ColorschemeModule = M
 
 return {
   -- ===========================================================================
-  -- SHADES OF PURPLE (All-in on purple) - DEFAULT
+  -- ONEDARK (Atom's iconic dark theme) - DEFAULT
   -- ===========================================================================
-  -- A professional dark theme with bold purple tones
-  -- Ported from the popular VS Code theme by Ahmad Awais
-  -- Colors: Background #2D2B55, Foreground #A599E9, Accent #FAD000
+  -- The classic dark theme from Atom editor, balanced and easy on the eyes
+  -- Great treesitter support, semantic highlighting, and LSP integration
+  -- Colors: Background #282c34, Foreground #abb2bf, Accent #61afef
   {
-    'Rigellute/shades-of-purple.vim',
+    'navarasu/onedark.nvim',
     lazy = false,     -- Load immediately (it's our default theme)
     priority = 1000,  -- Load before other plugins
 
     config = function()
-      -- Set shades_of_purple as the default colorscheme
-      vim.cmd.colorscheme('shades_of_purple')
+      require('onedark').setup({
+        style = 'dark',              -- 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer'
+        transparent = false,
+        term_colors = true,          -- Set terminal colors
+        ending_tildes = false,
+        cmp_itemkind_reverse = false,
+
+        -- Toggle theme style with keybinding
+        toggle_style_key = '<leader>ct',
+        toggle_style_list = {'dark', 'darker', 'cool', 'deep', 'warm', 'warmer'},
+
+        -- Styling options
+        code_style = {
+          comments = 'italic',
+          keywords = 'none',
+          functions = 'none',
+          strings = 'none',
+          variables = 'none',
+        },
+
+        -- LSP semantic highlighting
+        lsp_semantic_highlights = true,
+
+        -- Plugin support
+        diagnostics = {
+          darker = true,
+          undercurl = true,
+          background = true,
+        },
+      })
+
+      -- Set onedark as the default colorscheme
+      require('onedark').load()
 
       -- Register the colorscheme picker keymap
       vim.keymap.set('n', '<leader>cs', function()
@@ -107,6 +140,18 @@ return {
         desc = '[C]olorscheme [S]witch',
       })
     end,
+  },
+
+  -- ===========================================================================
+  -- SHADES OF PURPLE (All-in on purple)
+  -- ===========================================================================
+  -- A professional dark theme with bold purple tones
+  -- Ported from the popular VS Code theme by Ahmad Awais
+  -- Colors: Background #2D2B55, Foreground #A599E9, Accent #FAD000
+  {
+    'Rigellute/shades-of-purple.vim',
+    lazy = true,      -- Load on demand (no longer default)
+    priority = 1000,
   },
 
   -- ===========================================================================

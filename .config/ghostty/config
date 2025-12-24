@@ -1,36 +1,9 @@
 # Ghostty Configuration
-# Theme - Shades of Purple (bold purple aesthetic)
-# https://github.com/ahmadawais/shades-of-purple-vscode
-
-# Shades of Purple colors
-background = 2d2b55
-foreground = a599e9
-cursor-color = fad000
-selection-background = 4d21fc
-selection-foreground = ffffff
-
-# ANSI colors (normal)
-palette = 0=#1e1d40
-palette = 1=#ff628c
-palette = 2=#a5ff90
-palette = 3=#fad000
-palette = 4=#9d9cec
-palette = 5=#a599e9
-palette = 6=#80ffea
-palette = 7=#ffffff
-
-# ANSI colors (bright)
-palette = 8=#4d21fc
-palette = 9=#ff628c
-palette = 10=#a5ff90
-palette = 11=#ffee80
-palette = 12=#b362ff
-palette = 13=#ff9d00
-palette = 14=#80ffea
-palette = 15=#ffffff
+# Theme - OneDark (Atom's iconic dark theme)
+theme = "Atom One Dark"
 
 # Font settings
-font-family = "Iosevka NerdFont"
+font-family = "ZedMono Nerd Font"
 font-size = 12
 
 # Keybindings

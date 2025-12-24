@@ -1,45 +1,45 @@
-# Starship configuration - Shades of Purple aesthetic
-# Colors matched to Shades of Purple palette:
-#   purple: #A599E9    vivid:  #B362FF    yellow: #FAD000
-#   cyan:   #80FFEA    pink:   #FF628C    green:  #A5FF90
-#   orange: #FF9D00    bg:     #2D2B55    comment:#B362FF
+# Starship configuration - OneDark aesthetic
+# Colors matched to OneDark palette:
+#   red:    #e06c75    green:  #98c379    yellow: #e5c07b
+#   blue:   #61afef    purple: #c678dd    cyan:   #56b6c2
+#   orange: #d19a66    fg:     #abb2bf    comment:#5c6370
 
 format = """
-[\\[](bold #B362FF)$username[\\]](bold #B362FF)$git_branch
-[\\[](bold #B362FF)$directory[\\]](bold #B362FF)
+[\\[](bold #5c6370)$username[\\]](bold #5c6370)$git_branch
+[\\[](bold #5c6370)$directory[\\]](bold #5c6370)
 $character"""
 
 [username]
-style_user = "#FAD000"
-style_root = "#FF628C bold"
+style_user = "#e5c07b"
+style_root = "#e06c75 bold"
 format = "[$user]($style)"
 disabled = false
 show_always = true
 
 [directory]
-style = "#A599E9"
+style = "#61afef"
 truncation_length = 0
 truncate_to_repo = false
 home_symbol = "~"
 format = "[$path]($style)"
 
 [git_branch]
-style = "#80FFEA"
-format = "[\\[](bold #B362FF)[$symbol$branch]($style)[\\]](bold #B362FF)"
+style = "#98c379"
+format = "[\\[](bold #5c6370)[$symbol$branch]($style)[\\]](bold #5c6370)"
 symbol = ""
 
 [fill]
 symbol = " "
 
 [status]
-style = "#FF628C"
+style = "#e06c75"
 success_symbol = ""
 format = "[$symbol]($style)"
 disabled = false
 
 [character]
-success_symbol = "[▶](bold #FAD000)"
-error_symbol = "[▶](bold #FF628C)"
+success_symbol = "[▶](bold #98c379)"
+error_symbol = "[▶](bold #e06c75)"
 format = "$symbol "
 
 # Disable other modules for minimal look

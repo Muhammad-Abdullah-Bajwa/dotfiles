@@ -1,0 +1,186 @@
+# OneDark theme for Helix
+# https://github.com/atom/atom/tree/master/packages/one-dark-syntax
+# Atom's iconic dark theme - balanced and easy on the eyes
+
+[palette]
+# Main colors
+foreground = "#abb2bf"
+background = "#282c34"
+background_dark = "#21252b"
+
+# Accent colors
+red = "#e06c75"
+green = "#98c379"
+yellow = "#e5c07b"
+blue = "#61afef"
+purple = "#c678dd"
+cyan = "#56b6c2"
+orange = "#d19a66"
+
+# UI colors
+comment = "#5c6370"
+selection = "#3e4451"
+visual = "#3e4451"
+cursor = "#528bff"
+cursor_line = "#2c323c"
+gutter = "#4b5263"
+
+# ============================================================================
+# UI ELEMENTS
+# ============================================================================
+
+"ui.background" = { bg = "background" }
+"ui.window" = { fg = "comment" }
+"ui.linenr" = { fg = "gutter" }
+"ui.linenr.selected" = { fg = "foreground" }
+"ui.cursorline" = { bg = "cursor_line" }
+"ui.statusline" = { fg = "foreground", bg = "background_dark" }
+"ui.statusline.inactive" = { fg = "comment", bg = "background_dark" }
+"ui.statusline.normal" = { fg = "background", bg = "blue" }
+"ui.statusline.insert" = { fg = "background", bg = "green" }
+"ui.statusline.select" = { fg = "background", bg = "purple" }
+"ui.popup" = { fg = "foreground", bg = "background_dark" }
+"ui.help" = { fg = "foreground", bg = "background_dark" }
+"ui.text" = { fg = "foreground" }
+"ui.text.focus" = { fg = "foreground", bg = "selection" }
+"ui.text.inactive" = { fg = "comment" }
+"ui.virtual" = { fg = "gutter" }
+"ui.virtual.ruler" = { bg = "cursor_line" }
+"ui.virtual.whitespace" = { fg = "gutter" }
+"ui.virtual.indent-guide" = { fg = "selection" }
+"ui.menu" = { fg = "foreground", bg = "background_dark" }
+"ui.menu.selected" = { fg = "background", bg = "blue" }
+"ui.menu.scroll" = { fg = "comment", bg = "background_dark" }
+"ui.selection" = { bg = "selection" }
+"ui.selection.primary" = { bg = "visual" }
+"ui.cursor" = { fg = "background", bg = "cursor" }
+"ui.cursor.primary" = { fg = "background", bg = "cursor" }
+"ui.cursor.match" = { fg = "yellow", modifiers = ["bold"] }
+"ui.cursorline.primary" = { bg = "cursor_line" }
+"ui.bufferline" = { fg = "comment", bg = "background_dark" }
+"ui.bufferline.active" = { fg = "foreground", bg = "background" }
+"ui.bufferline.background" = { bg = "background_dark" }
+"ui.gutter" = { bg = "background" }
+
+# ============================================================================
+# DIAGNOSTICS
+# ============================================================================
+
+"error" = { fg = "red" }
+"warning" = { fg = "yellow" }
+"info" = { fg = "blue" }
+"hint" = { fg = "cyan" }
+
+"diagnostic.error" = { underline = { color = "red", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "yellow", style = "curl" } }
+"diagnostic.info" = { underline = { color = "blue", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "cyan", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+# ============================================================================
+# DIFF
+# ============================================================================
+
+"diff.plus" = { fg = "green" }
+"diff.minus" = { fg = "red" }
+"diff.delta" = { fg = "yellow" }
+
+# ============================================================================
+# MARKUP (Markdown, etc.)
+# ============================================================================
+
+"markup.heading" = { fg = "red", modifiers = ["bold"] }
+"markup.heading.1" = { fg = "red", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "orange", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "yellow", modifiers = ["bold"] }
+"markup.heading.4" = { fg = "green" }
+"markup.heading.5" = { fg = "blue" }
+"markup.heading.6" = { fg = "purple" }
+"markup.list" = { fg = "red" }
+"markup.bold" = { fg = "orange", modifiers = ["bold"] }
+"markup.italic" = { fg = "purple", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link" = { fg = "cyan" }
+"markup.link.url" = { fg = "cyan", modifiers = ["underlined"] }
+"markup.link.text" = { fg = "blue" }
+"markup.quote" = { fg = "comment", modifiers = ["italic"] }
+"markup.raw" = { fg = "green" }
+"markup.raw.inline" = { fg = "green" }
+"markup.raw.block" = { fg = "foreground", bg = "background_dark" }
+
+# ============================================================================
+# SYNTAX HIGHLIGHTING
+# ============================================================================
+
+"comment" = { fg = "comment", modifiers = ["italic"] }
+"comment.line" = { fg = "comment", modifiers = ["italic"] }
+"comment.block" = { fg = "comment", modifiers = ["italic"] }
+"comment.block.documentation" = { fg = "comment", modifiers = ["italic"] }
+
+"constant" = { fg = "orange" }
+"constant.builtin" = { fg = "orange" }
+"constant.builtin.boolean" = { fg = "orange" }
+"constant.character" = { fg = "green" }
+"constant.character.escape" = { fg = "cyan" }
+"constant.numeric" = { fg = "orange" }
+"constant.numeric.integer" = { fg = "orange" }
+"constant.numeric.float" = { fg = "orange" }
+
+"string" = { fg = "green" }
+"string.regexp" = { fg = "cyan" }
+"string.special" = { fg = "cyan" }
+"string.special.path" = { fg = "green" }
+"string.special.url" = { fg = "cyan", modifiers = ["underlined"] }
+"string.special.symbol" = { fg = "orange" }
+
+"type" = { fg = "yellow" }
+"type.builtin" = { fg = "yellow" }
+"type.enum" = { fg = "yellow" }
+"type.enum.variant" = { fg = "orange" }
+
+"constructor" = { fg = "blue" }
+
+"function" = { fg = "blue" }
+"function.builtin" = { fg = "cyan" }
+"function.macro" = { fg = "purple" }
+"function.method" = { fg = "blue" }
+"function.special" = { fg = "purple" }
+
+"variable" = { fg = "foreground" }
+"variable.builtin" = { fg = "red" }
+"variable.parameter" = { fg = "foreground" }
+"variable.other" = { fg = "foreground" }
+"variable.other.member" = { fg = "red" }
+
+"label" = { fg = "red" }
+
+"punctuation" = { fg = "foreground" }
+"punctuation.bracket" = { fg = "foreground" }
+"punctuation.delimiter" = { fg = "foreground" }
+"punctuation.special" = { fg = "cyan" }
+
+"keyword" = { fg = "purple" }
+"keyword.control" = { fg = "purple" }
+"keyword.control.conditional" = { fg = "purple" }
+"keyword.control.repeat" = { fg = "purple" }
+"keyword.control.import" = { fg = "purple" }
+"keyword.control.return" = { fg = "purple" }
+"keyword.control.exception" = { fg = "purple" }
+"keyword.operator" = { fg = "purple" }
+"keyword.directive" = { fg = "purple" }
+"keyword.function" = { fg = "purple" }
+"keyword.storage" = { fg = "purple" }
+"keyword.storage.type" = { fg = "purple" }
+"keyword.storage.modifier" = { fg = "purple" }
+
+"operator" = { fg = "cyan" }
+
+"namespace" = { fg = "yellow" }
+
+"attribute" = { fg = "yellow" }
+
+"special" = { fg = "cyan" }
+
+"tag" = { fg = "red" }
+"tag.builtin" = { fg = "red" }

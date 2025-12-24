@@ -51,6 +51,24 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', {
 -- 3. Press Escape to clear highlights when done
 
 --------------------------------------------------------------------------------
+-- CENTERED SCROLLING
+--------------------------------------------------------------------------------
+-- When scrolling half-page up/down, keep the cursor centered on screen.
+-- This prevents losing your place when navigating large files.
+
+vim.keymap.set('n', '<C-d>', '<C-d>zz', {
+  desc = 'Scroll down and center',
+})
+
+vim.keymap.set('n', '<C-u>', '<C-u>zz', {
+  desc = 'Scroll up and center',
+})
+
+-- TIP: You can also add centering to search navigation:
+--   n = nzz (next match, centered)
+--   N = Nzz (prev match, centered)
+
+--------------------------------------------------------------------------------
 -- DIAGNOSTICS
 --------------------------------------------------------------------------------
 -- Diagnostics are errors, warnings, and hints from LSP (Language Server).
