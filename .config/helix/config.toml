@@ -1,7 +1,7 @@
 # Helix Editor Configuration
 
-# Theme - OneDark (Atom's iconic dark theme)
-theme = "onedark"
+# Theme - Dracula (high contrast purple/pink)
+theme = "dracula"
 
 [editor]
 line-number = "relative"

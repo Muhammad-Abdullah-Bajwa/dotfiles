@@ -1,6 +1,6 @@
 # Ghostty Configuration
-# Theme - OneDark (Atom's iconic dark theme)
-theme = "Atom One Dark"
+# Theme - Dracula (high contrast purple/pink)
+theme = "Dracula"
 
 # Font settings
 font-family = "ZedMono Nerd Font"

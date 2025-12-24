@@ -9,9 +9,9 @@
   - Plugin highlights (diagnostics, search matches, etc.)
 
   INSTALLED COLORSCHEMES:
-    - onedark (default - Atom's classic dark theme)
+    - dracula (default - high contrast purple/pink)
+    - onedark (Atom's classic dark theme)
     - shades_of_purple (bold purple, VS Code port)
-    - dracula (high contrast purple/pink)
     - spaceduck (cosmic dark theme)
     - rose-pine (main, moon, dawn variants)
     - duskfox (from nightfox.nvim)
@@ -35,8 +35,8 @@ local M = {}
 -- List of colorschemes to show in the picker
 -- Add new colorschemes here when you install them
 M.colorschemes = {
-  'onedark',           -- Default: Atom's iconic dark theme
-  'dracula',           -- High contrast purple/pink classic
+  'dracula',           -- Default: High contrast purple/pink classic
+  'onedark',           -- Atom's iconic dark theme
   'shades_of_purple',  -- All-in on purple, high contrast
   'spaceduck',         -- Cosmic dark theme with deep blues
   'fluoromachine',     -- Retrowave synthwave aesthetic
@@ -88,56 +88,62 @@ _G.ColorschemeModule = M
 
 return {
   -- ===========================================================================
-  -- ONEDARK (Atom's iconic dark theme) - DEFAULT
+  -- DRACULA (High contrast purple/pink) - DEFAULT
   -- ===========================================================================
-  -- The classic dark theme from Atom editor, balanced and easy on the eyes
-  -- Great treesitter support, semantic highlighting, and LSP integration
-  -- Colors: Background #282c34, Foreground #abb2bf, Accent #61afef
+  -- The classic dark theme with excellent readability
+  -- Purple, pink, cyan, green accents on dark background
+  -- Colors: Background #282a36, Foreground #f8f8f2, Accent #bd93f9
   {
-    'navarasu/onedark.nvim',
+    'Mofiqul/dracula.nvim',
     lazy = false,     -- Load immediately (it's our default theme)
     priority = 1000,  -- Load before other plugins
 
     config = function()
-      require('onedark').setup({
-        style = 'dark',              -- 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer'
-        transparent = false,
-        term_colors = true,          -- Set terminal colors
-        ending_tildes = false,
-        cmp_itemkind_reverse = false,
-
-        -- Toggle theme style with keybinding
-        toggle_style_key = '<leader>ct',
-        toggle_style_list = {'dark', 'darker', 'cool', 'deep', 'warm', 'warmer'},
-
-        -- Styling options
-        code_style = {
-          comments = 'italic',
-          keywords = 'none',
-          functions = 'none',
-          strings = 'none',
-          variables = 'none',
-        },
-
-        -- LSP semantic highlighting
-        lsp_semantic_highlights = true,
-
-        -- Plugin support
-        diagnostics = {
-          darker = true,
-          undercurl = true,
-          background = true,
-        },
+      require('dracula').setup({
+        transparent_bg = false,
+        italic_comment = true,
+        show_end_of_buffer = false,
+        lualine_bg_color = '#44475a',
+        -- Full treesitter support is built-in
       })
 
-      -- Set onedark as the default colorscheme
-      require('onedark').load()
+      -- Set dracula as the default colorscheme
+      vim.cmd.colorscheme('dracula')
 
       -- Register the colorscheme picker keymap
       vim.keymap.set('n', '<leader>cs', function()
         _G.ColorschemeModule.pick_colorscheme()
       end, {
         desc = '[C]olorscheme [S]witch',
+      })
+    end,
+  },
+
+  -- ===========================================================================
+  -- ONEDARK (Atom's iconic dark theme)
+  -- ===========================================================================
+  -- The classic dark theme from Atom editor, balanced and easy on the eyes
+  -- Great treesitter support, semantic highlighting, and LSP integration
+  -- Colors: Background #282c34, Foreground #abb2bf, Accent #61afef
+  {
+    'navarasu/onedark.nvim',
+    lazy = true,      -- Load on demand
+    priority = 1000,
+
+    config = function()
+      require('onedark').setup({
+        style = 'dark',
+        transparent = false,
+        term_colors = true,
+        code_style = {
+          comments = 'italic',
+        },
+        lsp_semantic_highlights = true,
+        diagnostics = {
+          darker = true,
+          undercurl = true,
+          background = true,
+        },
       })
     end,
   },
@@ -150,28 +156,8 @@ return {
   -- Colors: Background #2D2B55, Foreground #A599E9, Accent #FAD000
   {
     'Rigellute/shades-of-purple.vim',
-    lazy = true,      -- Load on demand (no longer default)
-    priority = 1000,
-  },
-
-  -- ===========================================================================
-  -- DRACULA (High contrast purple/pink)
-  -- ===========================================================================
-  -- The classic dark theme with excellent readability
-  -- Purple, pink, cyan, green accents on dark background
-  {
-    'Mofiqul/dracula.nvim',
     lazy = true,      -- Load on demand
     priority = 1000,
-
-    config = function()
-      require('dracula').setup({
-        -- Use transparent background (set to true if your terminal supports it)
-        transparent_bg = false,
-        -- Italic comments for readability
-        italic_comment = true,
-      })
-    end,
   },
 
   -- ===========================================================================

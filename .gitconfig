@@ -14,7 +14,7 @@
     navigate = true
     light = false
     line-numbers = true
-    syntax-theme = OneHalfDark
+    syntax-theme = Dracula
 
 [merge]
     conflictstyle = diff3
