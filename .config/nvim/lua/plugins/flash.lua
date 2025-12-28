@@ -6,14 +6,14 @@
   Flash lets you jump to any location on screen with minimal keystrokes.
   
   HOW IT WORKS:
-  1. Press 's' to activate flash
+  1. Press '<leader>j' to activate flash (j for jump)
   2. Type 1-2 characters you want to jump to
   3. Labels appear on all matches
   4. Press the label key to jump there instantly
 
   EXAMPLE:
   You see "function" on line 50 and want to jump there:
-  1. Press 's'
+  1. Press '<leader>j'
   2. Type 'fu'
   3. A label like 'a' appears on "function"
   4. Press 'a' to jump there
@@ -26,9 +26,9 @@
 
   PHILOSOPHY:
   This config keeps flash separate from regular search (/).
-  - 's' = Flash jump (new feature)
+  - '<leader>j' = Flash jump (j for jump, frees 's' for mini.surround)
   - '/' = Regular search (unchanged)
-  
+
   One key, one action.
 
 --]]
@@ -117,17 +117,19 @@ return {
   },
 
   -- KEYMAPS: Dedicated keys for flash (doesn't override anything)
+  -- Using <leader>j instead of 's' to avoid conflict with mini.surround
+  -- mini.surround uses: sa (add), sd (delete), sr (replace)
   keys = {
     {
-      's',
+      '<leader>j',
       mode = { 'n', 'x', 'o' },
       function()
         require('flash').jump()
       end,
-      desc = 'Flash jump',
+      desc = 'Flash [J]ump',
     },
     {
-      'S',
+      '<leader>J',
       mode = { 'n', 'x', 'o' },
       function()
         require('flash').treesitter()
@@ -182,20 +184,19 @@ return {
 ================================================================================
 
   BASIC USAGE:
-    s             Jump to any location (type chars, then label)
-    S             Select code block using Treesitter
+    <leader>j     Jump to any location (type chars, then label)
+    <leader>J     Select code block using Treesitter
 
   OPERATOR PENDING (use with d, y, c, etc.):
     r             Remote flash - jump somewhere, do action, return
     R             Treesitter search
 
   EXAMPLES:
-    s + "if" + a       Jump to the "if" labeled 'a'
-    S                  Expand selection to function/block
-    ds + "x" + a       Delete from cursor to the "x" labeled 'a'
-    ys + "(" + a       Yank from cursor to the "(" labeled 'a'
+    <leader>j + "if" + a   Jump to the "if" labeled 'a'
+    <leader>J              Expand selection to function/block
+    d<leader>j + "x" + a   Delete from cursor to the "x" labeled 'a'
 
-  INSIDE FLASH (after pressing 's'):
+  INSIDE FLASH (after pressing '<leader>j'):
     <Esc>         Cancel flash
     <CR>          Jump to first match
     <Tab>         Toggle label display
@@ -204,7 +205,8 @@ return {
   TIPS:
   - Type more characters to narrow down matches
   - Labels prioritize home row keys (a, s, d, f...)
-  - Use S to quickly select functions, if-blocks, etc.
+  - Use <leader>J to quickly select functions, if-blocks, etc.
+  - 's' key is now free for mini.surround (sa/sd/sr)
 
 ================================================================================
 --]]
