@@ -194,16 +194,23 @@ return {
       desc = '[S]earch [N]eovim config files',
     })
 
-    -- GIT FILES (bonus - faster than regular files in git repos)
-    vim.keymap.set('n', '<leader>sg', function()
+    -- GIT FILES (faster than regular files in git repos)
+    vim.keymap.set('n', '<leader>gf', function()
       fzf.git_files()
     end, {
-      desc = '[S]earch [G]it files',
+      desc = '[G]it [F]iles',
     })
 
     -- COMMANDS (bonus feature)
     vim.keymap.set('n', '<leader>sc', fzf.commands, {
       desc = '[S]earch [C]ommands',
+    })
+
+    -- SPELL SUGGESTIONS (fuzzy picker for z=)
+    -- More visual alternative to built-in z= spell suggestions
+    -- Only useful when spell checking is enabled (markdown files)
+    vim.keymap.set('n', '<leader>zs', fzf.spell_suggest, {
+      desc = '[Z] [S]pell suggestions',
     })
   end,
 }

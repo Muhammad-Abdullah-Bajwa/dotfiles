@@ -43,3 +43,28 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+--------------------------------------------------------------------------------
+-- SPELL CHECK FOR MARKDOWN
+--------------------------------------------------------------------------------
+-- Enable spell checking for markdown files (notes, documentation).
+-- Spell errors appear as underlines. Navigate with [s and ]s.
+-- Add words to dictionary with zg. Show suggestions with z= or <leader>zs.
+--
+-- SPELL KEYBINDINGS (built-in):
+--   [s        Go to previous misspelling
+--   ]s        Go to next misspelling
+--   z=        Show spell suggestions (popup)
+--   zg        Add word to dictionary (good word)
+--   zw        Mark word as wrong
+--   zug       Undo zg (remove from dictionary)
+
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Enable spell checking for markdown',
+  group = vim.api.nvim_create_augroup('markdown-spell', { clear = true }),
+  pattern = { 'markdown', 'md' },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = 'en_us'
+  end,
+})

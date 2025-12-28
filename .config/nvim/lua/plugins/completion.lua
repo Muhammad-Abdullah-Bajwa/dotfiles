@@ -49,6 +49,7 @@ return {
     'hrsh7th/cmp-nvim-lsp',       -- LSP completions
     'hrsh7th/cmp-path',           -- File path completions
     'hrsh7th/cmp-buffer',         -- Buffer word completions
+    'f3fora/cmp-spell',           -- Spell suggestions (when spell is enabled)
   },
 
   config = function()
@@ -149,6 +150,11 @@ return {
         {
           name = 'path',      -- File system paths
           -- Start typing a path and it auto-completes
+        },
+        {
+          name = 'spell',     -- Spell suggestions (only when spell is enabled)
+          -- Shows corrections for misspelled words in markdown
+          -- Only activates when vim.opt.spell is true
         },
       },
     })
