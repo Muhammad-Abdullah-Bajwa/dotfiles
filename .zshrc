@@ -237,3 +237,6 @@ gpr() {
 
 # post-install.sh: go and npm-global paths
 export PATH="$HOME/.npm-global/bin:$HOME/go/bin:$PATH"
+
+# opencode
+export PATH=/Users/abdullahbajwa/.opencode/bin:$PATH

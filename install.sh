@@ -55,6 +55,9 @@ if ! command -v nix &> /dev/null; then
         . "$HOME/.nix-profile/etc/profile.d/nix.sh"
     elif [[ -f "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]]; then
         . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+    else
+        # Fallback for Determinate Systems installer
+        export PATH="/nix/var/nix/profiles/default/bin:$PATH"
     fi
 
     echo -e "${GREEN}==> Nix installed successfully${NC}"
@@ -126,12 +129,12 @@ if [[ "$USE_FLAKES" == "yes" ]]; then
 
     # Install all packages from the flake
     echo -e "  ${BLUE}Installing packages (this may take a moment on first run)...${NC}"
-    if nix profile add ".#default" 2>/dev/null; then
+    if nix profile add ".#default"; then
         echo -e "${GREEN}  Packages installed successfully via flake${NC}"
     else
         # Package might already be installed, try upgrading
         echo -e "  ${YELLOW}Packages may already be installed, checking...${NC}"
-        nix profile list 2>/dev/null || true
+        nix profile list || true
     fi
 
     cd - > /dev/null
