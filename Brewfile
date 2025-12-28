@@ -22,18 +22,19 @@ cask "wezterm"                # GPU-accelerated terminal with Lua config
 # cask "raycast"                # Spotlight replacement with extensions
 # cask "alfred"                 # Spotlight replacement (paid powerpack)
 # cask "1password"              # Password manager
+cask "1password-cli"            # 1Password CLI for commit signing
 # cask "bitwarden"              # Open-source password manager
 # cask "obsidian"               # Markdown knowledge base
 # cask "notion"                 # All-in-one workspace
 # cask "linear-linear"          # Issue tracking
-
-# ==============================================================================
-# DEVELOPMENT
+cask "remnote"                  # knowledge management and spaced repoetition 
+cask "todoist"                  # Task management   
 # ==============================================================================
 # cask "visual-studio-code"     # VS Code editor
 # cask "zed"                    # Fast, collaborative editor
 # cask "cursor"                 # AI-powered VS Code fork
-# cask "docker"                 # Container runtime
+cask "docker"                   # Container runtime (Docker Desktop)
+# cask "container"              # Container runtime (alternative)
 # cask "orbstack"               # Fast Docker/Linux VM alternative
 # cask "tableplus"              # Database GUI
 # cask "postico"                # PostgreSQL GUI
