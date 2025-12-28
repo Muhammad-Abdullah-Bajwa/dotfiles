@@ -9,7 +9,8 @@
   - Plugin highlights (diagnostics, search matches, etc.)
 
   INSTALLED COLORSCHEMES:
-    - dracula (default - high contrast purple/pink)
+    - modus_vivendi (default - WCAG AAA accessible dark theme)
+    - dracula (high contrast purple/pink)
     - onedark (Atom's classic dark theme)
     - shades_of_purple (bold purple, VS Code port)
     - spaceduck (cosmic dark theme)
@@ -35,7 +36,9 @@ local M = {}
 -- List of colorschemes to show in the picker
 -- Add new colorschemes here when you install them
 M.colorschemes = {
-  'dracula',           -- Default: High contrast purple/pink classic
+  'modus_vivendi',     -- Default: WCAG AAA accessible dark theme
+  'modus_operandi',    -- Light variant of modus
+  'dracula',           -- High contrast purple/pink classic
   'onedark',           -- Atom's iconic dark theme
   'shades_of_purple',  -- All-in on purple, high contrast
   'spaceduck',         -- Cosmic dark theme with deep blues
@@ -88,15 +91,52 @@ _G.ColorschemeModule = M
 
 return {
   -- ===========================================================================
-  -- DRACULA (High contrast purple/pink) - DEFAULT
+  -- MODUS VIVENDI (WCAG AAA Accessible Dark Theme) - DEFAULT
+  -- ===========================================================================
+  -- Highly accessible dark theme meeting WCAG AAA color contrast standards
+  -- Designed by Protesilaos Stavrou, ported from Emacs
+  -- Colors: Background #000000, Foreground #ffffff, Accent #79a8ff
+  {
+    'miikanissi/modus-themes.nvim',
+    lazy = false,     -- Load immediately (it's our default theme)
+    priority = 1000,  -- Load before other plugins
+
+    config = function()
+      require('modus-themes').setup({
+        style = 'modus_vivendi',  -- Dark variant (modus_operandi for light)
+        variant = 'default',      -- 'default', 'tinted', 'deuteranopia', 'tritanopia'
+        transparent = false,
+        dim_inactive = false,
+        styles = {
+          comments = { italic = true },
+          keywords = { italic = false },
+          functions = {},
+          variables = {},
+        },
+      })
+
+      -- Set modus_vivendi as the default colorscheme
+      vim.cmd.colorscheme('modus_vivendi')
+
+      -- Register the colorscheme picker keymap
+      vim.keymap.set('n', '<leader>cs', function()
+        _G.ColorschemeModule.pick_colorscheme()
+      end, {
+        desc = '[C]olorscheme [S]witch',
+      })
+    end,
+  },
+
+  -- ===========================================================================
+  -- DRACULA (High contrast purple/pink)
   -- ===========================================================================
   -- The classic dark theme with excellent readability
   -- Purple, pink, cyan, green accents on dark background
   -- Colors: Background #282a36, Foreground #f8f8f2, Accent #bd93f9
   {
     'Mofiqul/dracula.nvim',
-    lazy = false,     -- Load immediately (it's our default theme)
-    priority = 1000,  -- Load before other plugins
+    lazy = true,      -- Load on demand
+    priority = 1000,
 
     config = function()
       require('dracula').setup({
@@ -105,16 +145,6 @@ return {
         show_end_of_buffer = false,
         lualine_bg_color = '#44475a',
         -- Full treesitter support is built-in
-      })
-
-      -- Set dracula as the default colorscheme
-      vim.cmd.colorscheme('dracula')
-
-      -- Register the colorscheme picker keymap
-      vim.keymap.set('n', '<leader>cs', function()
-        _G.ColorschemeModule.pick_colorscheme()
-      end, {
-        desc = '[C]olorscheme [S]witch',
       })
     end,
   },

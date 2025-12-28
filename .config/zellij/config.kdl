@@ -3,7 +3,7 @@
 // Basic settings
 default_shell "fish"
 pane_frames false
-theme "dracula"
+theme "modus_vivendi"
 simplified_ui true
 default_layout "compact"
 on_force_close "quit"
@@ -53,6 +53,10 @@ keybinds {
         bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "w" { CloseFocus; SwitchToMode "normal"; }
 
+        // Floating panes
+        bind "f" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "normal"; }
+
         // Pane navigation
         bind "Left" { MoveFocus "Left"; SwitchToMode "normal"; }
         bind "Right" { MoveFocus "Right"; SwitchToMode "normal"; }
@@ -72,3 +76,24 @@ keybinds {
 
 // Clean startup - no default panes
 // Remove or comment out if you want the default layout
+
+// ==============================================================================
+// THEME: Modus Vivendi
+// ==============================================================================
+// WCAG AAA accessible dark theme from modus-themes.nvim
+// https://github.com/miikanissi/modus-themes.nvim
+themes {
+    modus_vivendi {
+        fg "#ffffff"
+        bg "#2f3849"
+        black "#000000"
+        red "#ff5f59"
+        green "#44bc44"
+        yellow "#d0bc00"
+        blue "#2fafff"
+        magenta "#feacd0"
+        cyan "#00d3d0"
+        white "#ffffff"
+        orange "#fec43f"
+    }
+}
