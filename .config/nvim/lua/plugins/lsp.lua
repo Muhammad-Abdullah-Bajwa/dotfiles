@@ -124,6 +124,12 @@ return {
         -- This is incredibly useful! Press K on anything to learn about it
         map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
+        -- FORMAT: Format the current buffer using LSP
+        -- Works with any LSP that supports formatting (rust-analyzer, clangd, lua_ls, etc.)
+        map('<leader>cf', function()
+          vim.lsp.buf.format({ async = true })
+        end, '[C]ode [F]ormat')
+
         -- ======================================================================
         -- HIGHLIGHT REFERENCES
         -- ======================================================================
@@ -292,6 +298,7 @@ return {
   ACTIONS:
     K             Hover documentation
     <leader>ca    Code actions (quick fixes)
+    <leader>cf    Format buffer via LSP
     <leader>rn    Rename symbol
 
   TOGGLES:
