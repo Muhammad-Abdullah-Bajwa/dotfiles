@@ -80,4 +80,11 @@ return {
   -- Noice - Better cmdline and error UI
 
   require('plugins.noice'),        -- Noice - cmdline UI and message routing
+
+  -- ============================================================================
+  -- NOTE-TAKING
+  -- ============================================================================
+  -- Obsidian vault integration
+
+  require('plugins.obsidian'),     -- Obsidian vault support (wiki links, daily notes)
 }
