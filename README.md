@@ -212,6 +212,9 @@ Some packages aren't in nixpkgs:
 ```bash
 # Claude Code
 npm install -g @anthropic-ai/claude-code
+
+# OpenAI Codex CLI
+npm install -g @openai/codex
 ```
 
 ## Troubleshooting

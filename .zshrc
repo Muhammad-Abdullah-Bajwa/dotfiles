@@ -240,3 +240,10 @@ export PATH="$HOME/.npm-global/bin:$HOME/go/bin:$PATH"
 
 # opencode
 export PATH=/Users/abdullahbajwa/.opencode/bin:$PATH
+
+# bun completions
+[ -s "/Users/abdullahbajwa/.bun/_bun" ] && source "/Users/abdullahbajwa/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

@@ -185,3 +185,7 @@ end
 # post-install.sh: go and npm-global paths
 fish_add_path -g $HOME/.npm-global/bin
 fish_add_path -g $HOME/go/bin
+
+# bun
+set -gx BUN_INSTALL $HOME/.bun
+fish_add_path -g $BUN_INSTALL/bin
