@@ -122,8 +122,6 @@
         wrk                       # HTTP benchmarking tool
 
         # ---------- NOT IN NIXPKGS (install via post-install.sh) ----------
-        # beads              # Install via: go install (steveyegge/beads)
-        # beads-viewer       # Install via: go install (Dicklesworthstone/beads_viewer)
         # opencode           # Install via: go install
         # claude-code        # Install via: npm install -g @anthropic-ai/claude-code
       ];
@@ -182,7 +180,7 @@
               echo "  Toolchains: go, rustup (cargo), nodejs (npm)"
               echo "  CLI tools: eza, bat, fd, ripgrep, fzf, etc."
               echo ""
-              echo "Run ./post-install.sh to install beads, opencode, claude-code"
+              echo "Run ./post-install.sh to install opencode, claude-code"
               echo ""
             '';
           };

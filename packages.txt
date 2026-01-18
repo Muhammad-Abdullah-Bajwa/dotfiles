@@ -8,8 +8,6 @@
 # Search packages: nix search nixpkgs <name>
 #
 # PACKAGES NOT IN NIXPKGS (install via ./post-install.sh):
-#   beads (bd):      go install github.com/steveyegge/beads/cmd/bd@latest
-#   beads-viewer:    go install github.com/Dicklesworthstone/beads_viewer/cmd/bv@latest
 #   opencode:        go install github.com/opencode-ai/opencode@latest
 #   claude-code:     npm install -g @anthropic-ai/claude-code
 #

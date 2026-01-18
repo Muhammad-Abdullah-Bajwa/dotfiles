@@ -4,10 +4,9 @@
 # Run this after `nix profile add .#` to install remaining tools
 #
 # TOOLS INSTALLED:
-#   - beads (bd)        - via go install (steveyegge/beads)
-#   - beads-viewer (bv) - via go install (Dicklesworthstone/beads_viewer)
-#   - opencode          - via go install
+#   - opencode          - via npm install -g (opencode-ai)
 #   - claude-code       - via npm install -g
+#   - codex             - via npm install -g
 #
 # PREREQUISITES:
 #   - Go toolchain (from nix flake)
@@ -235,20 +234,18 @@ export PATH="$NPM_GLOBAL_BIN:$GOBIN:$PATH"
 
 echo -e "${BLUE}==> Installing Go tools...${NC}"
 
-# Beads - the main beads CLI (bd command)
-install_go_tool "beads" "bd" "github.com/steveyegge/beads/cmd/bd@latest" "context bundler for AI"
-
-# Beads Viewer - viewer for beads files (bv command)
-install_go_tool "beads-viewer" "bv" "github.com/Dicklesworthstone/beads_viewer/cmd/bv@latest" "beads file viewer"
-
-# OpenCode - AI coding assistant
-install_go_tool "opencode" "opencode" "github.com/opencode-ai/opencode@latest" "AI coding assistant"
 
 echo ""
 echo -e "${BLUE}==> Installing npm tools...${NC}"
 
+# OpenCode - AI coding assistant (https://github.com/anomalyco/opencode)
+install_npm_tool "opencode" "opencode" "opencode-ai@latest" "AI coding assistant"
+
 # Claude Code - Anthropic's coding assistant
 install_npm_tool "claude-code" "claude" "@anthropic-ai/claude-code" "Anthropic's AI assistant"
+
+# Codex CLI - OpenAI Codex
+install_npm_tool "codex" "codex" "@openai/codex" "OpenAI Codex CLI"
 
 # ==============================================================================
 # SUMMARY
@@ -274,10 +271,9 @@ check_tool() {
     fi
 }
 
-check_tool "beads (bd)" "bd" ""
-check_tool "beads-viewer (bv)" "bv" ""
-check_tool "opencode" "opencode" ""
+check_tool "opencode" "opencode" "$NPM_GLOBAL_BIN/opencode"
 check_tool "claude-code" "claude" "$NPM_GLOBAL_BIN/claude"
+check_tool "codex" "codex" "$NPM_GLOBAL_BIN/codex"
 
 echo ""
 
@@ -297,6 +293,8 @@ echo ""
 echo "  For claude-code, authenticate with:"
 echo "    claude auth"
 echo ""
-echo "  For beads stealth mode (hides .beads from git):"
+echo "  For codex, authenticate with:"
+echo "    codex auth"
+echo ""
 echo "    bd init --stealth"
 echo ""

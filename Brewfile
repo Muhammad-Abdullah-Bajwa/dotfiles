@@ -33,9 +33,7 @@ cask "todoist"                  # Task management
 # cask "visual-studio-code"     # VS Code editor
 # cask "zed"                    # Fast, collaborative editor
 # cask "cursor"                 # AI-powered VS Code fork
-cask "docker"                   # Container runtime (Docker Desktop)
 # cask "container"              # Container runtime (alternative)
-# cask "orbstack"               # Fast Docker/Linux VM alternative
 # cask "tableplus"              # Database GUI
 # cask "postico"                # PostgreSQL GUI
 # cask "insomnia"               # API client
