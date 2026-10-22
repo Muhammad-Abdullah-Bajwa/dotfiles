@@ -109,7 +109,8 @@
         # ---------- Development Toolchains ----------
         go                        # Go programming language (for go install)
         rustup                    # Rust toolchain manager (provides cargo)
-        nodejs                    # Node.js + npm (required for Copilot, some LSPs)
+        nodejs_24                 # Node.js 24 LTS + npm (required for Copilot, some LSPs)
+        (python312.withPackages (ps: [ ps.pymupdf ]))  # Python 3.12 + PyMuPDF
 
         # ---------- Development Tools ----------
         jq                        # JSON processor
@@ -177,7 +178,7 @@
               echo "Installed packages:"
               echo "  Shells: zsh, fish, nushell"
               echo "  Editors: neovim, helix"
-              echo "  Toolchains: go, rustup (cargo), nodejs (npm)"
+              echo "  Toolchains: go, rustup (cargo), nodejs (npm), python3"
               echo "  CLI tools: eza, bat, fd, ripgrep, fzf, etc."
               echo ""
               echo "Run ./post-install.sh to install opencode, claude-code"

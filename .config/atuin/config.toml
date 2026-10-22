@@ -1,6 +1,5 @@
 # Atuin configuration - Local only (no sync)
-## Disable sync functionality
-sync_address = ""
+## Disable sync functionality (sync_address must be a valid URL or unset)
 auto_sync = false
 sync_frequency = "0"
 

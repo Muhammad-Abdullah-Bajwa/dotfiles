@@ -24,57 +24,42 @@ end
 
 set -l cache_dir (set -q XDG_CACHE_HOME; and echo $XDG_CACHE_HOME; or echo $HOME/.cache)/fish
 
-# Zoxide: Cache the init script
-set -l zoxide_cache $cache_dir/zoxide.fish
-if command -v zoxide >/dev/null 2>&1
-    if not test -f $zoxide_cache; or test (command -v zoxide) -nt $zoxide_cache
+# Regenerate a cached init script when the tool's resolved binary changes.
+# Nix store files all have a 1970 mtime, so an `-nt` check never fires after
+# an upgrade; the resolved store path does change, so stamp the cache with it.
+function __cached_init --argument-names name cache_dir
+    set -l bin (command -v $name); or return 1
+    set -l stamp "# "(path resolve $bin)
+    set -l cache $cache_dir/$name.fish
+    if not test -f $cache; or test "$(head -n1 $cache)" != "$stamp"
         mkdir -p $cache_dir
-        zoxide init fish > $zoxide_cache
+        # Only replace the cache if generation succeeds.
+        if $argv[3..] >$cache.tmp 2>/dev/null
+            begin
+                echo $stamp
+                cat $cache.tmp
+            end >$cache
+        end
+        rm -f $cache.tmp
     end
-    source $zoxide_cache
+    test -f $cache; or return 1
+    source $cache
+    return 0
+end
+
+if __cached_init zoxide $cache_dir zoxide init fish
     alias cd='z'
 end
 
-# Atuin: Cache the init script
-set -l atuin_cache $cache_dir/atuin.fish
-if command -v atuin >/dev/null 2>&1
-    if not test -f $atuin_cache; or test (command -v atuin) -nt $atuin_cache
-        mkdir -p $cache_dir
-        atuin init fish > $atuin_cache
-    end
-    source $atuin_cache
-end
+__cached_init atuin $cache_dir atuin init fish
+__cached_init starship $cache_dir starship init fish
 
-# Starship: Cache the init script
-set -l starship_cache $cache_dir/starship.fish
-if command -v starship >/dev/null 2>&1
-    if not test -f $starship_cache; or test (command -v starship) -nt $starship_cache
-        mkdir -p $cache_dir
-        starship init fish > $starship_cache
-    end
-    source $starship_cache
-end
+set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
+__cached_init carapace $cache_dir carapace _carapace
 
-# Carapace: Cache the init script
-set -l carapace_cache $cache_dir/carapace.fish
-if command -v carapace >/dev/null 2>&1
-    if not test -f $carapace_cache; or test (command -v carapace) -nt $carapace_cache
-        mkdir -p $cache_dir
-        set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
-        carapace _carapace > $carapace_cache
-    end
-    source $carapace_cache
-end
+__cached_init fzf $cache_dir fzf --fish
 
-# FZF: Cache the init script
-set -l fzf_cache $cache_dir/fzf.fish
-if command -v fzf >/dev/null 2>&1
-    if not test -f $fzf_cache; or test (command -v fzf) -nt $fzf_cache
-        mkdir -p $cache_dir
-        fzf --fish > $fzf_cache 2>/dev/null
-    end
-    source $fzf_cache 2>/dev/null
-end
+functions -e __cached_init
 
 # ==============================================================================
 # 2. EDITOR CONFIGURATION

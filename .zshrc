@@ -29,51 +29,35 @@ unset zcompdump
 # 2. LAZY-LOAD EXPENSIVE TOOLS
 # ==============================================================================
 
-# Zoxide: Cache the init script instead of running eval every time
-_zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zoxide.zsh"
-if [[ ! -f "$_zoxide_cache" ]] || [[ $(command -v zoxide) -nt "$_zoxide_cache" ]]; then
-    mkdir -p "${_zoxide_cache:h}"
-    zoxide init zsh > "$_zoxide_cache"
-fi
-source "$_zoxide_cache"
-alias cd='z'
-
-# Atuin: Cache the init script
-_atuin_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/atuin.zsh"
-if [[ ! -f "$_atuin_cache" ]] || [[ $(command -v atuin) -nt "$_atuin_cache" ]]; then
-    mkdir -p "${_atuin_cache:h}"
-    atuin init zsh > "$_atuin_cache"
-fi
-source "$_atuin_cache"
-
-# Starship: Cache the init script
-_starship_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/starship.zsh"
-if [[ ! -f "$_starship_cache" ]] || [[ $(command -v starship) -nt "$_starship_cache" ]]; then
-    mkdir -p "${_starship_cache:h}"
-    starship init zsh > "$_starship_cache"
-fi
-source "$_starship_cache"
-
-# Carapace: Cache the init script
-_carapace_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/carapace.zsh"
-if command -v carapace >/dev/null 2>&1; then
-    if [[ ! -f "$_carapace_cache" ]] || [[ $(command -v carapace) -nt "$_carapace_cache" ]]; then
-        mkdir -p "${_carapace_cache:h}"
-        export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
-        carapace _carapace > "$_carapace_cache"
+# Regenerate a cached init script when the tool's resolved binary changes.
+# Nix store files all have a 1970 mtime, so an `-nt` check never fires after
+# an upgrade; the resolved store path does change, so stamp the cache with it.
+_cached_init() {
+    local name=$1; shift
+    local bin=${commands[$name]}
+    [[ -n "$bin" ]] || return 1
+    local cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/$name.zsh"
+    local stamp="# ${bin:A}"
+    if [[ ! -f "$cache" ]] || [[ "$(head -n1 "$cache")" != "$stamp" ]]; then
+        mkdir -p "${cache:h}"
+        # Only replace the cache if generation succeeds.
+        if "$@" > "$cache.tmp" 2>/dev/null; then
+            { print -r -- "$stamp"; cat "$cache.tmp" } > "$cache"
+        fi
+        rm -f "$cache.tmp"
     fi
-    source "$_carapace_cache"
-fi
+    [[ -f "$cache" ]] || return 1
+    source "$cache"
+    return 0
+}
 
-# FZF: Cache the init script  
-_fzf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/fzf.zsh"
-if command -v fzf >/dev/null 2>&1; then
-    if [[ ! -f "$_fzf_cache" ]] || [[ $(command -v fzf) -nt "$_fzf_cache" ]]; then
-        mkdir -p "${_fzf_cache:h}"
-        fzf --zsh > "$_fzf_cache" 2>/dev/null
-    fi
-    source "$_fzf_cache" 2>/dev/null
-fi
+_cached_init zoxide zoxide init zsh && alias cd='z'
+_cached_init atuin atuin init zsh
+_cached_init starship starship init zsh
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+_cached_init carapace carapace _carapace
+_cached_init fzf fzf --zsh
+unfunction _cached_init
 
 # ==============================================================================
 # 3. HISTORY CONFIGURATION
